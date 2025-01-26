@@ -1,0 +1,42 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  padding: 20px 0px;
+  border-bottom: 1px solid #ededed;
+  position: relative;
+}
+
+.remove {
+  position: absolute; /* Đặt remove ở vị trí tuyệt đối so với .wrapper */
+  top: 10px; /* Căn cách phía trên */
+  right: 10px; /* Căn cách phía bên phải */
+  cursor: pointer; /* Con trỏ chuyển thành pointer khi hover */
+  font-size: 16px; /* Tùy chỉnh kích thước */
+  color: #999; /* Màu mặc định */
+}
+
+.wrapper img {
+  width: 100px;
+  height: 100px;
+}
+.details {
+  margin-left: 20px;
+}
+
+.details h3 {
+  font-size: 1.4rem;
+}
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.info p {
+  margin-bottom: 0px;
+  display: block;
+  font-size: 1.2rem;
+}
+.info span {
+  padding: 0px 5px;
+  font-size: 1rem;
+}
