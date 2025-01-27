@@ -3,11 +3,21 @@ import { Link } from "react-router";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-function Pill({ to, href, large, small, ...passProps }) {
+function Pill({
+  to,
+  href,
+  circle,
+  medium,
+  large,
+  small,
+  children,
+  ...passProps
+}) {
   let Comp = "button";
   const props = {
     ...passProps,
   };
+
   if (to) {
     props.to = to;
     Comp = Link;
@@ -16,10 +26,12 @@ function Pill({ to, href, large, small, ...passProps }) {
     Comp = "a";
   }
 
-  const classes = cx("wrapper", { small, large });
+  const classes = cx("wrapper", { small, large, circle });
+
   return (
     <Comp className={classes} {...props}>
-      Shop Now
+      {children || "Shop Now"}{" "}
+      {/* Hiển thị nội dung bên trong hoặc mặc định là "Shop Now" */}
     </Comp>
   );
 }
