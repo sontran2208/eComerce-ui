@@ -4,10 +4,12 @@ import classNames from "classnames/bind";
 import styles from "./Product.module.scss";
 import { useState, useRef } from "react"; // Sửa lỗi import
 import Button from "../../components/Button";
+import Breadcrumb from "../../components/Breadcrumb";
 import imageService1 from "../../assets/img/others/services1.png";
 import imageService2 from "../../assets/img/others/services2.png";
 import imageService3 from "../../assets/img/others/services3.png";
 import imageService4 from "../../assets/img/others/services4.png";
+import paypalImage from "../../assets/img/others/paypal.png";
 
 const cx = classNames.bind(styles);
 
@@ -35,7 +37,7 @@ function Product({ rating = 4, totalStars = 5 }) {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     vertical: true,
     verticalSwiping: true,
@@ -45,6 +47,7 @@ function Product({ rating = 4, totalStars = 5 }) {
   return (
     <div className={cx("wrapper")}>
       <div className={cx("content")}>
+        <Breadcrumb></Breadcrumb>
         <Container>
           <Row>
             <Col md={6}>
@@ -136,8 +139,12 @@ function Product({ rating = 4, totalStars = 5 }) {
                   </div>
                   <Button large>Add to cart</Button>
                 </div>
+                <img className={cx("paypal")} src={paypalImage}></img>
               </div>
             </Col>
+          </Row>
+          <Row>
+            <div className={cx("Reviews")}></div>
           </Row>
         </Container>
       </div>

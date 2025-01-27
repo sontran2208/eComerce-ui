@@ -1,5 +1,4 @@
 .wrapper {
-  margin: 100px 0px;
   .left {
     .image {
       height: 558px;
@@ -30,13 +29,21 @@
     }
   }
   .right {
+    margin-top: 50px;
+    margin-left: 30px;
     .title {
     }
+
     .description {
+      margin-bottom: 20px;
+      .stars {
+        margin-bottom: 10px;
+      }
     }
     .buttons {
       display: flex;
       text-align: center;
+      margin-bottom: 20px;
       .quantity {
         margin-right: 20px;
         font-size: 20px;
