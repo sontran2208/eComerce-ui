@@ -17,3 +17,8 @@
   line-height: 60px;
   padding: 0 40px;
 }
+
+.fwidth {
+  @extend .large;
+  width: 100%;
+}

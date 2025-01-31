@@ -24,19 +24,33 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 function Home() {
-  const products = [
-    { id: 1, name: "Product 1", price: "$22.00", img: imageService1 },
-    { id: 2, name: "Product 2", price: "$25.00", img: imageService2 },
-    { id: 3, name: "Product 3", price: "$30.00", img: imageService3 },
-    { id: 4, name: "Product 4", price: "$35.00", img: imageService4 },
-    { id: 5, name: "Product 5", price: "$40.00", img: imageService1 },
-    { id: 6, name: "Product 6", price: "$45.00", img: imageService2 },
-    { id: 7, name: "Product 7", price: "$50.00", img: imageService3 },
-    { id: 8, name: "Product 8", price: "$55.00", img: imageService4 },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Gọi API
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/v1/products"
+        );
+        setProducts(response.data); // Lưu dữ liệu vào state
+        console.log(response.data); // Kiểm tra dữ liệu từ API
+      } catch (err) {
+        setError(err.message); // Xử lý lỗi
+      } finally {
+        setLoading(false); // Tắt trạng thái loading
+      }
+    };
+
+    fetchProducts();
+  }, []);
   return (
     <div className={cx("wrapper")}>
       <Container fluid className={cx("banner")}>
@@ -148,7 +162,7 @@ function Home() {
                     </span>
                     Sale Off
                   </h3>
-                  <h2>Best Quality Products</h2>
+                  <h2> Giảm giá sốc !!!!</h2>
                   <Pill to="shop" small />
                 </div>
               </div>
@@ -165,7 +179,7 @@ function Home() {
                     </span>
                     Sale Off
                   </h3>
-                  <h2>Hot & Spicy Pastry</h2>
+                  <h2>Bánh ngọt & Bánh mặn</h2>
                   <Pill to="shop" small />
                 </div>
               </div>
@@ -177,22 +191,26 @@ function Home() {
       <div className={cx("product")}>
         <Container>
           <div className={cx("product-header")}>
-            <h2>New Products</h2>
+            <h2>Bánh móiiiii</h2>
             <div className={cx("product-nav")}>
-              <Link to="/shop">See More</Link>
+              <Link to="/shop">Xem thêm...</Link>
             </div>
           </div>
 
           {/* <Container> */}
           <div className={cx("product-section")}>
             <Row>
-              {products.map((product) => (
+              {products.slice(0, 8).map((product) => (
                 <Col key={product.id} lg={3} md={4} sm={6}>
-                  <ProductItem
-                    name={product.name}
-                    price={product.price}
-                    image={product.img}
-                  />
+                  <Link to={`/product/${product.id}`}>
+                    <ProductItem
+                      name={product.title}
+                      price={product.price}
+                      image={
+                        "http://localhost:3001/" + product.images[0]?.filepath
+                      }
+                    />
+                  </Link>
                 </Col>
               ))}
             </Row>
@@ -234,12 +252,14 @@ function Home() {
 
           <Row>
             <SimpleSlider>
-              {products.map((product) => (
+              {products.slice(0, 8).map((product) => (
                 <Col key={product.id} lg={3} md={4} sm={6}>
                   <ProductItem
-                    name={product.name}
+                    name={product.title}
                     price={product.price}
-                    image={product.img}
+                    image={
+                      "http://localhost:3001/" + product.images[0]?.filepath
+                    }
                   />
                 </Col>
               ))}

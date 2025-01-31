@@ -2,25 +2,74 @@ import { Container, Row, Col } from "react-bootstrap";
 import Slider from "react-slick";
 import classNames from "classnames/bind";
 import styles from "./Product.module.scss";
-import { useState, useRef } from "react"; // Sửa lỗi import
+import { useState, useRef, useEffect } from "react"; // Sửa lỗi import
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import Button from "../../components/Button";
+import Review from "../../components/Review";
+import StarsRating from "../../components/StarsRating";
 import Breadcrumb from "../../components/Breadcrumb";
-import imageService1 from "../../assets/img/others/services1.png";
-import imageService2 from "../../assets/img/others/services2.png";
-import imageService3 from "../../assets/img/others/services3.png";
-import imageService4 from "../../assets/img/others/services4.png";
 import paypalImage from "../../assets/img/others/paypal.png";
 
 const cx = classNames.bind(styles);
 
 function Product({ rating = 4, totalStars = 5 }) {
-  const images = [
-    { id: 1, src: imageService1, alt: "Service 1" },
-    { id: 2, src: imageService2, alt: "Service 2" },
-    { id: 3, src: imageService3, alt: "Service 3" },
-    { id: 4, src: imageService4, alt: "Service 4" },
-  ];
+  const { id } = useParams(); // Lấy ID từ URL
+  const [product, setProduct] = useState(null);
+  const sliderRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(""); // Sửa state để nhận src
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState([null]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [newReview, setNewReview] = useState({
+    rating: 5, // Mặc định là 5 sao
+    comment: "",
+  });
+  const [submitMessage, setSubmitMessage] = useState(null);
+  const [authToken, setAuthToken] = useState(() =>
+    localStorage.getItem("token")
+  ); // 🔹 Lấy token từ localStorage
+  console.log(authToken);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/api/v1/products/${id}`
+        );
+        setProduct(response.data);
+        if (response.data.images?.length > 0) {
+          setSelectedImage(
+            `http://localhost:3001/${response.data.images[0].filepath}`
+          );
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/v1/reviews",
+          { params: { productId: id } }
+        );
+        setReviews(response.data.data);
+      } catch (err) {}
+    };
+
+    fetchProduct();
+    fetchReviews();
+  }, [id]);
+  console.log(reviews);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!product) return <p>Product not found.</p>;
+
   const MinusQuantityChange = () => {
     setQuantity(quantity - 1);
     if (quantity <= 1) {
@@ -30,8 +79,6 @@ function Product({ rating = 4, totalStars = 5 }) {
   const AddQuantityChange = () => {
     setQuantity(quantity + 1);
   };
-  const [selectedImage, setSelectedImage] = useState(images[0].src); // Sửa state để nhận src
-  const sliderRef = useRef(null);
 
   const sliderSettings = {
     dots: false,
@@ -62,26 +109,29 @@ function Product({ rating = 4, totalStars = 5 }) {
                     <Col md={2}>
                       <div className={cx("slider")}>
                         <Slider ref={sliderRef} {...sliderSettings}>
-                          {images.map((image, index) => (
+                          {product.images.map((image, index) => (
                             <div
                               className={cx("item")}
                               key={index}
                               onClick={() => {
-                                setSelectedImage(image.src);
+                                setSelectedImage(
+                                  "http://localhost:3001/" + image.filepath
+                                );
                                 sliderRef.current.slickGoTo(index);
                               }}
                               style={{
                                 cursor: "pointer",
                                 padding: "5px",
                                 border:
-                                  selectedImage === image.src
+                                  selectedImage ===
+                                  "http://localhost:3001/" + image.filepath
                                     ? "2px solid var(--primary)"
                                     : "none",
                               }}
                             >
                               <img
-                                src={image.src} // Hiển thị đúng src của ảnh
-                                alt={image.alt}
+                                src={"http://localhost:3001/" + image.filepath} // Hiển thị đúng src của ảnh
+                                alt={image.filename}
                                 style={{ width: "100%" }}
                               />
                             </div>
@@ -95,37 +145,13 @@ function Product({ rating = 4, totalStars = 5 }) {
             </Col>
             <Col md={6}>
               <div className={cx("right")}>
-                <h1 className={cx("title")}>Products Name Here</h1>
-                <h2 className={cx("price")}>$Price</h2>
+                <h1 className={cx("title")}>{product.title}</h1>
+                <h2 className={cx("price")}> ${product.price}</h2>
                 <div className={cx("description")}>
                   <div className={cx("stars")}>
-                    {[...Array(totalStars)].map((_, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          color: index < rating ? "gold" : "gray", // Đổi màu vàng nếu sao nằm trong "rating"
-                          fontSize: "16px", // Kích thước sao
-                        }}
-                      >
-                        ★
-                      </span>
-                    ))}
-                    <span
-                      style={{
-                        marginLeft: "10px",
-                        fontSize: "16px",
-                        color: "black",
-                      }}
-                    >
-                      {rating}/{totalStars}
-                    </span>
+                    <StarsRating rating={4} />
                   </div>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmoddll tempor incididunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veni quis nostrud exercit
-                    ullamco laboris nisi ut aliquip.
-                  </p>
+                  <p>{product.description}</p>
                 </div>
                 <div className={cx("buttons")}>
                   <div className={cx("quantity")}>
@@ -144,7 +170,39 @@ function Product({ rating = 4, totalStars = 5 }) {
             </Col>
           </Row>
           <Row>
-            <div className={cx("Reviews")}></div>
+            <div className={cx("reviews")}>
+              <Review />
+              {reviews?.map((review, index) => (
+                <div
+                  className={cx("review")}
+                  key={index}
+                  style={{
+                    border: "1px solid #ccc",
+                    borderRadius: "10px",
+                    padding: "15px",
+                    marginBottom: "15px",
+                    backgroundColor: "var(--primary)",
+                    color: "var(--active)",
+                  }}
+                >
+                  <h3 style={{ margin: "0 0 5px 0" }}>{review?.user.name}</h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      marginBottom: "5px",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <StarsRating white rating={review?.rating} />
+                  </div>
+                  <p style={{ margin: "5px 0", color: "var(--white)" }}>
+                    {review?.comment}
+                  </p>
+
+                  <small style={{ color: "#999" }}>{review?.createdAt}</small>
+                </div>
+              ))}
+            </div>
           </Row>
         </Container>
       </div>

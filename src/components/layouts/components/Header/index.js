@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import logo from "../../../../assets/img/logo/logo.png";
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -37,8 +38,8 @@ function Header({ toggleOverlay, toggleSearch }) {
                   >
                     My Account
                   </Dropdown.Item>
-                  <Dropdown.Item className={cx("dropdown-item")} href="#/login">
-                    Login
+                  <Dropdown.Item className={cx("dropdown-item")}>
+                    <Link to="/auth">Login</Link>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
