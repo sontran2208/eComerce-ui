@@ -10,6 +10,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 function Header({ toggleOverlay, toggleSearch }) {
+  const token = localStorage.getItem("token");
   return (
     <div className={cx("wrapper")}>
       <div className={cx("top")}>
@@ -32,15 +33,30 @@ function Header({ toggleOverlay, toggleSearch }) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className={cx("dropdown-menu")}>
-                  <Dropdown.Item
-                    className={cx("dropdown-item")}
-                    href="#/my-account"
-                  >
-                    My Account
-                  </Dropdown.Item>
-                  <Dropdown.Item className={cx("dropdown-item")}>
-                    <Link to="/auth">Login</Link>
-                  </Dropdown.Item>
+                  {token ? (
+                    <>
+                      <Dropdown.Item
+                        className={cx("dropdown-item")}
+                        href="#/my-account"
+                      >
+                        My Account
+                      </Dropdown.Item>
+
+                      <Dropdown.Item
+                        onClick={() => {
+                          localStorage.removeItem("token");
+                          window.location.reload();
+                        }}
+                        className={cx("dropdown-item")}
+                      >
+                        <Link>Log-out</Link>
+                      </Dropdown.Item>
+                    </>
+                  ) : (
+                    <Dropdown.Item className={cx("dropdown-item")}>
+                      <Link to="/auth">Log-in</Link>
+                    </Dropdown.Item>
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
             </Col>
@@ -59,9 +75,18 @@ function Header({ toggleOverlay, toggleSearch }) {
             />
           </div>
           <div className={cx("nav")}>
-            <NavBtn to="home" label="Home" />
-            <NavBtn to="shop" label="Shop" />
-            <NavBtn to="cart" label="Cart" />
+            {token ? (
+              <>
+                <NavBtn to="home" label="Home" />
+                <NavBtn to="shop" label="Shop" />
+                <NavBtn to="cart" label="Cart" />
+              </>
+            ) : (
+              <>
+                <NavBtn to="home" label="Home" />
+                <NavBtn to="shop" label="Shop" />
+              </>
+            )}
           </div>
           <div className={cx("right")}>
             <div onClick={toggleSearch} className={cx("search")}>

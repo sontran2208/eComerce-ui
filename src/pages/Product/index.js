@@ -13,7 +13,13 @@ import paypalImage from "../../assets/img/others/paypal.png";
 
 const cx = classNames.bind(styles);
 
-function Product({ rating = 4, totalStars = 5 }) {
+function Product() {
+  const formatCurrency = (price) => {
+    return new Intl.NumberFormat("vi-VN", { minimumFractionDigits: 0 }).format(
+      price
+    );
+  };
+
   const { id } = useParams(); // Lấy ID từ URL
   const [product, setProduct] = useState(null);
   const sliderRef = useRef(null);
@@ -146,7 +152,10 @@ function Product({ rating = 4, totalStars = 5 }) {
             <Col md={6}>
               <div className={cx("right")}>
                 <h1 className={cx("title")}>{product.title}</h1>
-                <h2 className={cx("price")}> ${product.price}</h2>
+                <h2 className={cx("price")}>
+                  {" "}
+                  {formatCurrency(product.price)} đ
+                </h2>
                 <div className={cx("description")}>
                   <div className={cx("stars")}>
                     <StarsRating rating={4} />

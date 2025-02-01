@@ -202,15 +202,15 @@ function Home() {
             <Row>
               {products.slice(0, 8).map((product) => (
                 <Col key={product.id} lg={3} md={4} sm={6}>
-                  <Link to={`/product/${product.id}`}>
-                    <ProductItem
-                      name={product.title}
-                      price={product.price}
-                      image={
-                        "http://localhost:3001/" + product.images[0]?.filepath
-                      }
-                    />
-                  </Link>
+                  <ProductItem
+                    name={product.title}
+                    price={product.price}
+                    image={
+                      "http://localhost:3001/" + product.images[0]?.filepath
+                    }
+                    id={product.id}
+                    to={`/product/${product.id}`}
+                  />
                 </Col>
               ))}
             </Row>
@@ -260,6 +260,8 @@ function Home() {
                     image={
                       "http://localhost:3001/" + product.images[0]?.filepath
                     }
+                    id={product.id}
+                    to={`/product/${product.id}`}
                   />
                 </Col>
               ))}

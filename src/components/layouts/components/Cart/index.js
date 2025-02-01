@@ -1,7 +1,5 @@
 import { FaChevronRight } from "react-icons/fa6";
-import image1 from "../../../../assets/img/product/product1.png";
-import image2 from "../../../../assets/img/product/product2.png";
-import image3 from "../../../../assets/img/product/product3.png";
+import { useEffect } from "react";
 import styles from "./Cart.module.scss";
 import classNames from "classnames/bind";
 import CartItems from "../../../CartItems";
@@ -9,15 +7,20 @@ import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 function Cart({ toggleOverlay }) {
-  const cartItems = [
-    { name: "Product 1", cost: 10, quantity: 1, image: image1 },
-    { name: "Product 2", cost: 20, quantity: 2, image: image2 },
-    { name: "Product 3", cost: 30, quantity: 3, image: image3 },
-  ];
+  const cartItems = localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [];
+  console.log(cartItems);
   const total = cartItems.reduce(
-    (total, item) => total + item.cost * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const handleRemove = (id) => {
+    const updatedCartItems = cartItems.filter((item) => item.id !== id);
+    localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+  };
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
@@ -30,8 +33,9 @@ function Cart({ toggleOverlay }) {
       <div className={cx("content")}>
         {cartItems.map((item) => (
           <CartItems
+            remove={handleRemove(item.id)}
             name={item.name}
-            cost={item.cost}
+            cost={item.price}
             quantity={item.quantity}
             image={item.image}
           />

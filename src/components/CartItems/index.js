@@ -4,10 +4,10 @@ import className from "classnames/bind";
 
 const cx = className.bind(styles);
 
-function CartItems({ name, cost, quantity, image }) {
+function CartItems({ name, cost, quantity, image, remove }) {
   return (
     <div className={cx("wrapper")}>
-      <div className={cx("remove")}>
+      <div className={cx("remove")} onClick={remove}>
         <HiOutlineXCircle />
       </div>
       <img src={image} alt={name} />
@@ -16,7 +16,7 @@ function CartItems({ name, cost, quantity, image }) {
         <div className={cx("info")}>
           <p> {quantity}</p>
           <span>x</span>
-          <p> ${cost}</p>
+          <p> {cost} đ</p>
         </div>
       </div>
     </div>
