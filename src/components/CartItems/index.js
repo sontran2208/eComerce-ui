@@ -4,10 +4,10 @@ import className from "classnames/bind";
 
 const cx = className.bind(styles);
 
-function CartItems({ name, cost, quantity, image, remove }) {
+function CartItems({ name, cost, quantity, image, remove, id }) {
   return (
     <div className={cx("wrapper")}>
-      <div className={cx("remove")} onClick={remove}>
+      <div className={cx("remove")} onClick={() => remove(id)}>
         <HiOutlineXCircle />
       </div>
       <img src={image} alt={name} />

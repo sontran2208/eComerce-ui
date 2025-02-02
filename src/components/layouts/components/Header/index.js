@@ -5,11 +5,13 @@ import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import logo from "../../../../assets/img/logo/logo.png";
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 function Header({ toggleOverlay, toggleSearch }) {
+  const location = useLocation();
+  const isCartPage = location.pathname === "/cart";
   const token = localStorage.getItem("token");
   return (
     <div className={cx("wrapper")}>
@@ -89,16 +91,21 @@ function Header({ toggleOverlay, toggleSearch }) {
             )}
           </div>
           <div className={cx("right")}>
-            <div onClick={toggleSearch} className={cx("search")}>
-              <CiSearch />
-            </div>
-            <div className={cx("whishlist")}>
-              <CiHeart />
-            </div>
-            <div onClick={toggleOverlay} className={cx("cart")}>
-              <CiShoppingCart className={cx("icon")} />
-              <div className={cx("count")}>2</div>
-            </div>
+            {!isCartPage ? (
+              <>
+                <div onClick={toggleSearch} className={cx("search")}>
+                  <CiSearch />
+                </div>
+                <div onClick={toggleOverlay} className={cx("cart")}>
+                  <CiShoppingCart className={cx("icon")} />
+                  <div className={cx("count")}>2</div>
+                </div>
+              </>
+            ) : (
+              <div onClick={toggleSearch} className={cx("search")}>
+                <CiSearch />
+              </div>
+            )}
           </div>
         </Container>
       </div>
