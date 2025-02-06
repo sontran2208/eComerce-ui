@@ -2,69 +2,86 @@ import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import styles from "./CartTable.module.scss";
 import classNames from "classnames/bind";
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  removeFromCart,
+  addToCart,
+  handleAdd,
+  handleSubtract,
+} from "../../redux/cartSlice";
 const cx = classNames.bind(styles);
 
 const CartTable = () => {
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
 
-  // Load giỏ hàng từ localStorage khi mở trang
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-  }, []);
+  // // Load giỏ hàng từ localStorage khi mở trang
+  // useEffect(() => {
+  //   const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   setCartItems(storedCart);
+  // }, []);
 
-  // Lắng nghe sự thay đổi của localStorage từ các tab khác
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setCartItems(JSON.parse(localStorage.getItem("cart")) || []);
-    };
+  // // Lắng nghe sự thay đổi của localStorage từ các tab khác
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setCartItems(JSON.parse(localStorage.getItem("cart")) || []);
+  //   };
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, []);
 
-  // Cập nhật localStorage khi cartItems thay đổi, nhưng tránh ghi đè nếu rỗng
-  useEffect(() => {
-    if (cartItems.length > 0) {
-      localStorage.setItem("cart", JSON.stringify(cartItems));
-    }
-  }, [cartItems]);
+  // // Cập nhật localStorage khi cartItems thay đổi, nhưng tránh ghi đè nếu rỗng
+  // useEffect(() => {
+  //   if (cartItems.length > 0) {
+  //     localStorage.setItem("cart", JSON.stringify(cartItems));
+  //   }
+  // }, [cartItems]);
 
   // Xóa sản phẩm khỏi giỏ hàng
-  const handleRemove = (id) => {
-    setCartItems((prevCart) => {
-      const updatedCart = prevCart.filter((item) => item.id !== id);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
-  };
+  // const handleRemove = (id) => {
+  //   setCartItems((prevCart) => {
+  //     const updatedCart = prevCart.filter((item) => item.id !== id);
+  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //     return updatedCart;
+  //   });
+  // };
 
-  // Tăng số lượng sản phẩm
-  const handleAdd = (id) => {
-    setCartItems((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: (item.quantity || 0) + 1 } : item
-      );
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
-  };
+  // // Tăng số lượng sản phẩm
+  // const handleAdd = (id) => {
+  //   setCartItems((prevCart) => {
+  //     const updatedCart = prevCart.map((item) =>
+  //       item.id === id ? { ...item, quantity: (item.quantity || 0) + 1 } : item
+  //     );
+  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //     return updatedCart;
+  //   });
+  // };
 
-  // Giảm số lượng sản phẩm
-  const handleSubtract = (id) => {
-    setCartItems((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max((item.quantity || 0) - 1, 1) }
-          : item
-      );
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
-  };
+  // // Giảm số lượng sản phẩm
+  // const handleSubtract = (id) => {
+  //   setCartItems((prevCart) => {
+  //     const updatedCart = prevCart.map((item) =>
+  //       item.id === id
+  //         ? { ...item, quantity: Math.max((item.quantity || 0) - 1, 1) }
+  //         : item
+  //     );
+  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //     return updatedCart;
+  //   });
+  // };
 
   // Tính tổng tiền
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const handleRemove = (item) => {
+    dispatch(removeFromCart(item));
+  };
+  const handleAddItem = (item) => {
+    dispatch(addToCart(item));
+  };
+  const handleSubtractItem = (id) => {
+    dispatch(handleSubtract(id));
+  };
   const total = cartItems.reduce(
     (total, item) => total + (item.price ?? 0) * (item.quantity ?? 1),
     0
@@ -104,7 +121,7 @@ const CartTable = () => {
                   <Button
                     variant="outline-secondary"
                     size="sm"
-                    onClick={() => handleSubtract(item.id)}
+                    onClick={() => handleSubtractItem(item)}
                   >
                     -
                   </Button>
@@ -112,7 +129,7 @@ const CartTable = () => {
                   <Button
                     variant="outline-secondary"
                     size="sm"
-                    onClick={() => handleAdd(item.id)}
+                    onClick={() => handleAddItem(item)}
                   >
                     +
                   </Button>

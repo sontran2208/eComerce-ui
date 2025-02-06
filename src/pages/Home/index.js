@@ -30,9 +30,16 @@ const cx = classNames.bind(styles);
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+  const [cate, setCate] = useState([]);
+  useEffect(() => {
+    const fetchCate = async () => {
+      const response = await axios.get(
+        "http://localhost:3001/api/v1/categories"
+      );
+      setCate(response.data);
+    };
+    fetchCate();
+  }, []);
   useEffect(() => {
     // Gọi API
     const fetchProducts = async () => {
@@ -41,16 +48,12 @@ function Home() {
           "http://localhost:3001/api/v1/products"
         );
         setProducts(response.data); // Lưu dữ liệu vào state
-        console.log(response.data); // Kiểm tra dữ liệu từ API
-      } catch (err) {
-        setError(err.message); // Xử lý lỗi
-      } finally {
-        setLoading(false); // Tắt trạng thái loading
-      }
+      } catch (err) {}
     };
 
     fetchProducts();
   }, []);
+
   return (
     <div className={cx("wrapper")}>
       <Container fluid className={cx("banner")}>
@@ -114,38 +117,19 @@ function Home() {
       </Container>
 
       <Container>
-        <div className={cx("services")}>
-          <Row>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService1} />
-                <Link>PASTRY</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService2} />
-                <Link>BREAKFAST</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService3} />
-                <Link>COFFEE CAKE</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService4} />
-                <Link>BAKE TOSS</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-          </Row>
-        </div>
+        <Row>
+          <div className={cx("services")}>
+            {cate.slice(0, 4).map((category) => (
+              <Col lg={3} key={category.id}>
+                <div className={cx("service")}>
+                  <img alt="" src={imageService4} />
+                  <Link to="/shop">{category.title}</Link>
+                  <p>{category.description}</p>
+                </div>
+              </Col>
+            ))}
+          </div>
+        </Row>
       </Container>
       <Container>
         <div className={cx("small-banner")}>

@@ -1,24 +1,41 @@
 import { CiHeart, CiSearch, CiShoppingCart } from "react-icons/ci";
 import styles from "./Header.module.scss";
 import NavBtn from "../NavBtn";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
 import logo from "../../../../assets/img/logo/logo.png";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames/bind";
+import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function Header({ toggleOverlay, toggleSearch }) {
   const location = useLocation();
   const isCartPage = location.pathname === "/cart";
   const token = localStorage.getItem("token");
+
+  // const [countCart, setCountCart] = useState(0);
+  // const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // useEffect(() => {
+  //   const loadCart = () => {
+  //     const stored = JSON.parse(localStorage.getItem("cart")) || [];
+  //     setCountCart(stored.length);
+  //   };
+  //   loadCart();
+  //   window.addEventListener("storage", loadCart);
+  //   return () => {
+  //     window.removeEventListener("storage", loadCart);
+  //   };
+  // }, [storedCart]);
+
+  const cartItems = useSelector((state) => state.cart.items);
   return (
     <div className={cx("wrapper")}>
       <div className={cx("top")}>
-        {/* <div className={cx("top-inner")}> */}
         <Container>
-          <Row>
+          <Row className={cx("top-inner")}>
             <Col lg={6} md={12} sm={12} className={cx("welcome")}>
               <p>World Wide Completely Free Returns and Free Shipping</p>
             </Col>
@@ -64,7 +81,6 @@ function Header({ toggleOverlay, toggleSearch }) {
             </Col>
           </Row>
         </Container>
-        {/* </div> */}
       </div>
 
       <div className={cx("bottom")}>
@@ -98,7 +114,7 @@ function Header({ toggleOverlay, toggleSearch }) {
                 </div>
                 <div onClick={toggleOverlay} className={cx("cart")}>
                   <CiShoppingCart className={cx("icon")} />
-                  <div className={cx("count")}>2</div>
+                  <div className={cx("count")}>{cartItems.length}</div>
                 </div>
               </>
             ) : (

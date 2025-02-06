@@ -4,32 +4,34 @@ import styles from "./Cart.module.scss";
 import classNames from "classnames/bind";
 import CartItems from "../../../CartItems";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../../../../redux/cartSlice";
 const cx = classNames.bind(styles);
 
 function Cart({ toggleOverlay }) {
-  // 🔹 Sử dụng state để quản lý giỏ hàng
-  const [cartItems, setCartItems] = useState([]);
+  // // 🔹 Sử dụng state để quản lý giỏ hàng
+  // const [cartItems, setCartItems] = useState([]);
 
-  // 🔹 Load giỏ hàng từ localStorage khi mở component
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-  }, []);
+  // // 🔹 Load giỏ hàng từ localStorage khi mở component
+  // useEffect(() => {
+  //   const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   setCartItems(storedCart);
+  // }, []);
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setCartItems(JSON.parse(localStorage.getItem("cart")) || []);
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setCartItems(JSON.parse(localStorage.getItem("cart")) || []);
+  //   };
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, []);
 
-  // 🔹 Hàm xóa sản phẩm khỏi giỏ hàng
+  // // 🔹 Hàm xóa sản phẩm khỏi giỏ hàng
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
   const handleRemove = (id) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== id);
-    setCartItems(updatedCartItems); // Cập nhật state
-    localStorage.setItem("cart", JSON.stringify(updatedCartItems)); // Cập nhật localStorage
-    console.log(localStorage.getItem("cart"));
+    dispatch(removeFromCart(id));
   };
 
   // 🔹 Tính tổng tiền
@@ -37,6 +39,7 @@ function Cart({ toggleOverlay }) {
     (total, item) => total + item.price * item.quantity,
     0
   );
+  console.log(cartItems);
 
   return (
     <div className={cx("wrapper")}>
