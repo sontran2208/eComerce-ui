@@ -5,32 +5,42 @@ import Filter from "../../components/Filter";
 import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 import ProductItem from "../../components/ProductItem";
 import Pagination from "../../components/Pagination";
 
 const cx = classNames.bind(styles);
 function Shop() {
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [categories, setCategories] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({ cateId: null, price: [0, 400000] });
-  const limit = 8; // Số sản phẩm mỗi trang
+  const [selectedCate, setSelectedCate] = useState(null);
+  const limit = 8;
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const categoryId = queryParams.get("category");
+    setSelectedCate(categoryId ? parseInt(categoryId) : null);
+    setFilters((prev) => ({
+      ...prev,
+      cateId: categoryId ? parseInt(categoryId) : null,
+    }));
+  }, [location.search]);
 
-  // Gọi API khi thay đổi filters hoặc page
   useEffect(() => {
     fetchProducts(page, filters);
   }, [page, filters]);
 
-  // Gọi API danh mục khi trang load lần đầu
   useEffect(() => {
     const fetchCate = async () => {
       try {
         const response = await axios.get(
           "http://localhost:3001/api/v1/categories"
         );
-        setCategories([{ id: null, title: "All" }, ...response.data]); // Thêm "All" vào danh sách categories
+        setCategories([{ id: null, title: "All" }, ...response.data]);
       } catch (error) {
         console.error("Lỗi khi lấy danh mục:", error);
       }
@@ -38,7 +48,6 @@ function Shop() {
     fetchCate();
   }, []);
 
-  // Gọi API lấy danh sách sản phẩm
   const fetchProducts = async (page, filters) => {
     try {
       const params = {
@@ -86,6 +95,7 @@ function Shop() {
               <div className={cx("left")}>
                 <div className={cx("filter")}>
                   <Filter
+                    selectedCate={selectedCate}
                     categories={categories}
                     onFilterChange={handleFilterChange}
                   />

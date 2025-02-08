@@ -1,9 +1,9 @@
 import centerBanner from "../../assets/img/bg/hero-banner-shape.png";
 import Pill from "../../components/Pill";
-import imageService1 from "../../assets/img/others/services1.png";
-import imageService2 from "../../assets/img/others/services2.png";
-import imageService3 from "../../assets/img/others/services3.png";
-import imageService4 from "../../assets/img/others/services4.png";
+import cateImg1 from "../../assets/img/product/banh-man.jpg";
+import cateImg2 from "../../assets/img/product/banh-ngot.jpg";
+import cateImg3 from "../../assets/img/product/banh-tcay.jpg";
+import cateImg4 from "../../assets/img/product/banh-pizza.jpeg";
 import mini1 from "../../assets/img/others/hero-mini-shape1.png";
 import mini2 from "../../assets/img/others/hero-mini-shape2.png";
 import mini3 from "../../assets/img/others/hero-mini-shape3.png";
@@ -21,7 +21,7 @@ import styles from "./Home.module.scss";
 import SimpleSlider from "../../components/Slider";
 
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -29,6 +29,9 @@ import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 function Home() {
+  const navigate = useNavigate();
+
+  const cateImg = [cateImg1, cateImg2, cateImg3, cateImg4];
   const [products, setProducts] = useState([]);
   const [cate, setCate] = useState([]);
   useEffect(() => {
@@ -53,6 +56,10 @@ function Home() {
 
     fetchProducts();
   }, []);
+
+  const handleCateNavi = (cateId) => {
+    navigate(`/shop?category=${cateId}`);
+  };
 
   return (
     <div className={cx("wrapper")}>
@@ -119,11 +126,17 @@ function Home() {
       <Container>
         <Row>
           <div className={cx("services")}>
-            {cate.slice(0, 4).map((category) => (
+            {cate.slice(0, 4).map((category, index) => (
               <Col lg={3} key={category.id}>
                 <div className={cx("service")}>
-                  <img alt="" src={imageService4} />
-                  <Link to="/shop">{category.title}</Link>
+                  <img alt="" src={cateImg[index]} />
+                  <button
+                    onClick={() => {
+                      handleCateNavi(category.id);
+                    }}
+                  >
+                    {category.title}
+                  </button>
                   <p>{category.description}</p>
                 </div>
               </Col>

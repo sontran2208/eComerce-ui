@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap"; // Dùng React-Bootstrap để tạo Checkbox
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css"; // CSS của rc-slider
@@ -7,11 +7,13 @@ import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-const Filter = ({ categories, onFilterChange }) => {
-  const [selectedCateId, setSelectedCateId] = useState(null);
+const Filter = ({ categories, onFilterChange, selectedCate }) => {
+  const [selectedCateId, setSelectedCateId] = useState(selectedCate);
   const [priceRange, setPriceRange] = useState([0, 400000]);
+  useEffect(() => {
+    setSelectedCateId(selectedCate);
+  }, [selectedCate]);
 
-  // Xử lý khi chọn danh mục
   const handleCheckboxChange = (cateId) => {
     const newCateId = cateId === "all" ? null : cateId;
     setSelectedCateId(newCateId);

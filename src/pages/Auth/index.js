@@ -3,7 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { successToast, dangerToast } from "../../redux/toastSlice";
 import ToastNoti from "../../components/ToastNoti";
 import styles from "./Auth.module.scss";
 import Button from "../../components/Button";
@@ -12,12 +13,13 @@ import Breadcrumb from "../../components/Breadcrumb";
 const cx = classNames.bind(styles);
 
 function Auth({ showToast }) {
-  const [auth, setAuth] = useState("login");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [auth, setAuth] = useState("login");
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
-  const navigate = useNavigate();
 
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -40,29 +42,27 @@ function Auth({ showToast }) {
         localStorage.setItem("token", response.data.accessToken);
 
         if (endpoint === "signin") {
-          showToast("Đăng nhập thành công!", "success");
-          setTimeout(() => navigate("/"), 2000);
+          setTimeout(() => navigate("/"), 1000);
+          dispatch(successToast({ message: "Đăng nhập thành công" }));
         } else {
-          showToast("Đăng ký thành công!", "success");
           setAuth("login");
-
-          // Xóa input sau khi đăng ký
+          dispatch(successToast({ message: "Đăng ký thành công" }));
           emailRef.current.value = "";
           passwordRef.current.value = "";
           nameRef.current.value = "";
         }
 
-        // Ghi nhớ tài khoản nếu người dùng chọn Remember Me
         if (rememberMe) {
           localStorage.setItem("rememberedEmail", emailRef.current.value);
         } else {
           localStorage.removeItem("rememberedEmail");
         }
       } else {
-        showToast("Có lỗi xảy ra, vui lòng thử lại!", "danger");
       }
     } catch (error) {
-      showToast("Có lỗi xảy ra, vui lòng thử lại!", "danger");
+      dispatch(dangerToast({ message: `lỗi` }));
+
+      console.log(error);
     }
   };
 

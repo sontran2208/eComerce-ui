@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Slider from "react-slick";
 import classNames from "classnames/bind";
 import styles from "./Product.module.scss";
-import { useState, useRef, useEffect } from "react"; // Sửa lỗi import
+import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Button from "../../components/Button";
@@ -10,20 +10,23 @@ import Review from "../../components/Review";
 import StarsRating from "../../components/StarsRating";
 import Breadcrumb from "../../components/Breadcrumb";
 import paypalImage from "../../assets/img/others/paypal.png";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/cartSlice";
+import { successToast } from "../../redux/toastSlice";
 const cx = classNames.bind(styles);
 
 function Product() {
+  const dispatch = useDispatch();
   const formatCurrency = (price) => {
     return new Intl.NumberFormat("vi-VN", { minimumFractionDigits: 0 }).format(
       price
     );
   };
 
-  const { id } = useParams(); // Lấy ID từ URL
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const sliderRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(""); // Sửa state để nhận src
+  const [selectedImage, setSelectedImage] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([null]);
 
@@ -31,14 +34,10 @@ function Product() {
   const [error, setError] = useState(null);
 
   const [newReview, setNewReview] = useState({
-    rating: 5, // Mặc định là 5 sao
+    rating: 5,
     comment: "",
   });
-  const [submitMessage, setSubmitMessage] = useState(null);
-  const [authToken, setAuthToken] = useState(() =>
-    localStorage.getItem("token")
-  ); // 🔹 Lấy token từ localStorage
-  console.log(authToken);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -71,7 +70,7 @@ function Product() {
     fetchProduct();
     fetchReviews();
   }, [id]);
-  console.log(reviews);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!product) return <p>Product not found.</p>;
@@ -81,11 +80,27 @@ function Product() {
     if (quantity <= 1) {
       setQuantity(1);
     }
+    console.log(quantity);
   };
   const AddQuantityChange = () => {
+    console.log(quantity);
     setQuantity(quantity + 1);
   };
 
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        name: product.title,
+        price: product.price,
+        image: selectedImage,
+        id: product.id,
+        quantity: quantity,
+      })
+    );
+    dispatch(
+      successToast({ message: "Sản phẩm đã được thêm vào giỏ hàng !!!" })
+    );
+  };
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -94,7 +109,7 @@ function Product() {
     slidesToScroll: 1,
     vertical: true,
     verticalSwiping: true,
-    arrows: false, // Tắt nút điều hướng
+    arrows: false,
   };
 
   return (
@@ -136,7 +151,7 @@ function Product() {
                               }}
                             >
                               <img
-                                src={"http://localhost:3001/" + image.filepath} // Hiển thị đúng src của ảnh
+                                src={"http://localhost:3001/" + image.filepath}
                                 alt={image.filename}
                                 style={{ width: "100%" }}
                               />
@@ -172,7 +187,9 @@ function Product() {
                       +
                     </div>
                   </div>
-                  <Button large>Add to cart</Button>
+                  <Button onClick={() => handleAddToCart()} large>
+                    Add to cart
+                  </Button>
                 </div>
                 <img className={cx("paypal")} src={paypalImage}></img>
               </div>

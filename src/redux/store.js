@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cartReducer from "./cartSlice"; // Import reducer từ cartSlice
+import cartReducer from "./cartSlice";
+import toastReducer from "./toastSlice";
+import reviewReducer from "./reviewSlice";
 
 export const store = configureStore({
   reducer: {
-    cart: cartReducer, // Định nghĩa reducer giỏ hàng
-    // product: productReducer,
+    cart: cartReducer,
+    toast: toastReducer,
+    review: reviewReducer,
   },
 });
 
