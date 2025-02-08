@@ -6,7 +6,6 @@ const cx = classNames.bind(styles);
 function NavBtn({ to, label }) {
   const location = useLocation(); // Lấy đường dẫn hiện tại
   const isActive = location.pathname === (to === "home" ? "/" : `/${to}`); // So sánh
-  console.log(location.pathname);
 
   const classes = cx("wrapper", { active: isActive });
 

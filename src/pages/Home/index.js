@@ -1,9 +1,9 @@
 import centerBanner from "../../assets/img/bg/hero-banner-shape.png";
 import Pill from "../../components/Pill";
-import imageService1 from "../../assets/img/others/services1.png";
-import imageService2 from "../../assets/img/others/services2.png";
-import imageService3 from "../../assets/img/others/services3.png";
-import imageService4 from "../../assets/img/others/services4.png";
+import cateImg1 from "../../assets/img/product/banh-man.jpg";
+import cateImg2 from "../../assets/img/product/banh-ngot.jpg";
+import cateImg3 from "../../assets/img/product/banh-tcay.jpg";
+import cateImg4 from "../../assets/img/product/banh-pizza.jpeg";
 import mini1 from "../../assets/img/others/hero-mini-shape1.png";
 import mini2 from "../../assets/img/others/hero-mini-shape2.png";
 import mini3 from "../../assets/img/others/hero-mini-shape3.png";
@@ -21,22 +21,46 @@ import styles from "./Home.module.scss";
 import SimpleSlider from "../../components/Slider";
 
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 function Home() {
-  const products = [
-    { id: 1, name: "Product 1", price: "$22.00", img: imageService1 },
-    { id: 2, name: "Product 2", price: "$25.00", img: imageService2 },
-    { id: 3, name: "Product 3", price: "$30.00", img: imageService3 },
-    { id: 4, name: "Product 4", price: "$35.00", img: imageService4 },
-    { id: 5, name: "Product 5", price: "$40.00", img: imageService1 },
-    { id: 6, name: "Product 6", price: "$45.00", img: imageService2 },
-    { id: 7, name: "Product 7", price: "$50.00", img: imageService3 },
-    { id: 8, name: "Product 8", price: "$55.00", img: imageService4 },
-  ];
+  const navigate = useNavigate();
+
+  const cateImg = [cateImg1, cateImg2, cateImg3, cateImg4];
+  const [products, setProducts] = useState([]);
+  const [cate, setCate] = useState([]);
+  useEffect(() => {
+    const fetchCate = async () => {
+      const response = await axios.get(
+        "http://localhost:3001/api/v1/categories"
+      );
+      setCate(response.data);
+    };
+    fetchCate();
+  }, []);
+  useEffect(() => {
+    // Gọi API
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/v1/products"
+        );
+        setProducts(response.data); // Lưu dữ liệu vào state
+      } catch (err) {}
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleCateNavi = (cateId) => {
+    navigate(`/shop?category=${cateId}`);
+  };
+
   return (
     <div className={cx("wrapper")}>
       <Container fluid className={cx("banner")}>
@@ -100,38 +124,25 @@ function Home() {
       </Container>
 
       <Container>
-        <div className={cx("services")}>
-          <Row>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService1} />
-                <Link>PASTRY</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService2} />
-                <Link>BREAKFAST</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService3} />
-                <Link>COFFEE CAKE</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-            <Col lg={3}>
-              <div className={cx("service")}>
-                <img alt="" src={imageService4} />
-                <Link>BAKE TOSS</Link>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </Col>
-          </Row>
-        </div>
+        <Row>
+          <div className={cx("services")}>
+            {cate.slice(0, 4).map((category, index) => (
+              <Col lg={3} key={category.id}>
+                <div className={cx("service")}>
+                  <img alt="" src={cateImg[index]} />
+                  <button
+                    onClick={() => {
+                      handleCateNavi(category.id);
+                    }}
+                  >
+                    {category.title}
+                  </button>
+                  <p>{category.description}</p>
+                </div>
+              </Col>
+            ))}
+          </div>
+        </Row>
       </Container>
       <Container>
         <div className={cx("small-banner")}>
@@ -148,7 +159,7 @@ function Home() {
                     </span>
                     Sale Off
                   </h3>
-                  <h2>Best Quality Products</h2>
+                  <h2> Giảm giá sốc !!!!</h2>
                   <Pill to="shop" small />
                 </div>
               </div>
@@ -165,7 +176,7 @@ function Home() {
                     </span>
                     Sale Off
                   </h3>
-                  <h2>Hot & Spicy Pastry</h2>
+                  <h2>Bánh ngọt & Bánh mặn</h2>
                   <Pill to="shop" small />
                 </div>
               </div>
@@ -177,21 +188,25 @@ function Home() {
       <div className={cx("product")}>
         <Container>
           <div className={cx("product-header")}>
-            <h2>New Products</h2>
+            <h2>Bánh móiiiii</h2>
             <div className={cx("product-nav")}>
-              <Link to="/shop">See More</Link>
+              <Link to="/shop">Xem thêm...</Link>
             </div>
           </div>
 
           {/* <Container> */}
           <div className={cx("product-section")}>
             <Row>
-              {products.map((product) => (
+              {products.slice(0, 8).map((product) => (
                 <Col key={product.id} lg={3} md={4} sm={6}>
                   <ProductItem
-                    name={product.name}
+                    name={product.title}
                     price={product.price}
-                    image={product.img}
+                    image={
+                      "http://localhost:3001/" + product.images[0]?.filepath
+                    }
+                    id={product.id}
+                    to={`/product/${product.id}`}
                   />
                 </Col>
               ))}
@@ -234,12 +249,16 @@ function Home() {
 
           <Row>
             <SimpleSlider>
-              {products.map((product) => (
+              {products.slice(0, 8).map((product) => (
                 <Col key={product.id} lg={3} md={4} sm={6}>
                   <ProductItem
-                    name={product.name}
+                    name={product.title}
                     price={product.price}
-                    image={product.img}
+                    image={
+                      "http://localhost:3001/" + product.images[0]?.filepath
+                    }
+                    id={product.id}
+                    to={`/product/${product.id}`}
                   />
                 </Col>
               ))}

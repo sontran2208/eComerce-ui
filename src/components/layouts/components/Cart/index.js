@@ -1,23 +1,46 @@
 import { FaChevronRight } from "react-icons/fa6";
-import image1 from "../../../../assets/img/product/product1.png";
-import image2 from "../../../../assets/img/product/product2.png";
-import image3 from "../../../../assets/img/product/product3.png";
+import { useEffect, useState } from "react";
 import styles from "./Cart.module.scss";
 import classNames from "classnames/bind";
 import CartItems from "../../../CartItems";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../../../../redux/cartSlice";
 const cx = classNames.bind(styles);
 
 function Cart({ toggleOverlay }) {
-  const cartItems = [
-    { name: "Product 1", cost: 10, quantity: 1, image: image1 },
-    { name: "Product 2", cost: 20, quantity: 2, image: image2 },
-    { name: "Product 3", cost: 30, quantity: 3, image: image3 },
-  ];
+  // // 🔹 Sử dụng state để quản lý giỏ hàng
+  // const [cartItems, setCartItems] = useState([]);
+
+  // // 🔹 Load giỏ hàng từ localStorage khi mở component
+  // useEffect(() => {
+  //   const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   setCartItems(storedCart);
+  // }, []);
+
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setCartItems(JSON.parse(localStorage.getItem("cart")) || []);
+  //   };
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, []);
+
+  // // 🔹 Hàm xóa sản phẩm khỏi giỏ hàng
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const handleRemove = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  // 🔹 Tính tổng tiền
   const total = cartItems.reduce(
-    (total, item) => total + item.cost * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
+  console.log(cartItems);
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
@@ -30,15 +53,18 @@ function Cart({ toggleOverlay }) {
       <div className={cx("content")}>
         {cartItems.map((item) => (
           <CartItems
+            key={item.id} // 🔹 Thêm key tránh lỗi React
+            remove={handleRemove}
             name={item.name}
-            cost={item.cost}
+            cost={item.price}
             quantity={item.quantity}
             image={item.image}
+            id={item.id} // 🔹 Truyền id để có thể xóa
           />
         ))}
       </div>
 
-      <div className={cx("total")}>Total: ${total}</div>
+      <div className={cx("total")}>Total: ${total.toLocaleString("vi-VN")}</div>
       <div className={cx("button")}>
         <Link to="/cart">
           <button onClick={toggleOverlay}>View Cart</button>

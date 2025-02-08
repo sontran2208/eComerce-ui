@@ -1,16 +1,16 @@
-import styles from "./Pill.module.scss";
-import { Link } from "react-router";
 import classNames from "classnames/bind";
+import styles from "./Button.module.scss";
+import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 
-function Pill({
-  to,
-  href,
-  circle,
-  medium,
+function Button({
+  fwidth,
   large,
+  med,
   small,
   children,
+  to,
+  href,
   ...passProps
 }) {
   let Comp = "button";
@@ -26,14 +26,13 @@ function Pill({
     Comp = "a";
   }
 
-  const classes = cx("wrapper", { small, large, circle });
+  const classes = cx("wrapper", { small, large, fwidth });
 
   return (
     <Comp className={classes} {...props}>
-      {children || "Shop Now"}{" "}
-      {/* Hiển thị nội dung bên trong hoặc mặc định là "Shop Now" */}
+      {children} {/* Hiển thị nội dung bên trong hoặc mặc định là "Shop Now" */}
     </Comp>
   );
 }
 
-export default Pill;
+export default Button;
