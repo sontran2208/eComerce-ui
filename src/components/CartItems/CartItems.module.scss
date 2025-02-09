@@ -7,12 +7,16 @@
 }
 
 .remove {
-  position: absolute; /* Đặt remove ở vị trí tuyệt đối so với .wrapper */
-  top: 10px; /* Căn cách phía trên */
-  right: 10px; /* Căn cách phía bên phải */
-  cursor: pointer; /* Con trỏ chuyển thành pointer khi hover */
-  font-size: 16px; /* Tùy chỉnh kích thước */
-  color: #999; /* Màu mặc định */
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #999;
+  transition: color 0.3s ease;
+  &:hover {
+    color: var(--active);
+  }
 }
 
 .wrapper img {

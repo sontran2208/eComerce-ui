@@ -6,7 +6,7 @@ function StarsRating({ rating, white, onClick }) {
         <span
           key={i}
           style={{ color: i < rating ? "gold" : "#ddd" }}
-          onClick={() => onClick(i + 1)}
+          onClick={() => onClick?.(i + 1)}
         >
           ★
         </span>

@@ -13,7 +13,7 @@ function CartItems({ name, cost, quantity, image, id }) {
         className={cx("remove")}
         onClick={() => dispatch(removeFromCart(id))}
       >
-        <HiOutlineXCircle />
+        x
       </div>
       <img src={image} alt={name} />
       <div className={cx("details")}>
@@ -21,7 +21,7 @@ function CartItems({ name, cost, quantity, image, id }) {
         <div className={cx("info")}>
           <p> {quantity}</p>
           <span>x</span>
-          <p> {cost} đ</p>
+          <p> {Number(cost).toLocaleString("vi-VN")} đ</p>
         </div>
       </div>
     </div>

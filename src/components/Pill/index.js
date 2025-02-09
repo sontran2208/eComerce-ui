@@ -30,7 +30,7 @@ function Pill({
 
   return (
     <Comp className={classes} {...props}>
-      {children || "Shop Now"}{" "}
+      {children || "Mua ngay "}{" "}
       {/* Hiển thị nội dung bên trong hoặc mặc định là "Shop Now" */}
     </Comp>
   );

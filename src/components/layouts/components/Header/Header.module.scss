@@ -67,7 +67,7 @@
       padding: 10px 20px; /* Tăng khoảng cách trong menu item */
       color: black; /* Màu chữ mặc định */
       transition: background-color 0.1s ease, color 0.1s ease;
-
+      transition: color 0.3s ease;
       &:hover {
         color: var(--active); /* Màu cam khi hover */
       }
@@ -130,7 +130,9 @@
 .cart {
   padding: 0 5px;
 }
-
+.search {
+  transition: color 0.3s ease;
+}
 .search:hover,
 .whishlist:hover,
 .cart:hover {
@@ -142,6 +144,7 @@
   display: flex;
   position: relative;
   top: 5px;
+  transition: color 0.3s ease;
 }
 
 .icon {

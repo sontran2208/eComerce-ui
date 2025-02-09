@@ -23,7 +23,11 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #ededed;
   .close {
+    transition: color 0.3s ease;
     cursor: pointer;
+    &:hover {
+      color: var(--active);
+    }
   }
 }
 

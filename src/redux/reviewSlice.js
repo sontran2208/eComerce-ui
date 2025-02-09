@@ -6,16 +6,36 @@ const API_URL = "http://localhost:3001/api/v1/reviews";
 export const fetchReviews = createAsyncThunk(
   "review/fetchReviews",
   async (productId) => {
-    const response = await axios.get(`${API_URL}/${productId}`);
-    return { productId, reviews: response.data };
+    const response = await axios.get(`${API_URL}`, { params: { productId } });
+    return {
+      productId, // ✅ Trả về productId để dùng làm key trong Redux
+      reviews: Array.isArray(response.data.data) ? response.data.data : [],
+    };
   }
 );
 
 export const addReview = createAsyncThunk(
   "review/addReview",
-  async ({ productId, rating, comment }) => {
-    const response = await axios.post(API_URL, { productId, rating, comment });
-    return response.data;
+  async ({ productId, rating, comment }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        API_URL,
+        { productId, rating, comment },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(
+        err.response?.data?.message || "Lỗi không xác định khi thêm review"
+      );
+    }
   }
 );
 export const removeReview = createAsyncThunk(

@@ -19,7 +19,6 @@ function DefaultLayout({ children }) {
 
   const toggleSearch = () => {
     setSearchOpen((prevState) => !prevState);
-    console.log(isSearchOpen);
   };
 
   return (

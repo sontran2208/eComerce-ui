@@ -6,11 +6,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
 import ProductItem from "../../components/ProductItem";
 import Pagination from "../../components/Pagination";
+import ScrollReveal from "../../components/layouts/components/ScrollReveal";
 
 const cx = classNames.bind(styles);
+
 function Shop() {
   const location = useLocation();
   const [products, setProducts] = useState([]);
@@ -20,12 +21,16 @@ function Shop() {
   const [filters, setFilters] = useState({ cateId: null, price: [0, 400000] });
   const [selectedCate, setSelectedCate] = useState(null);
   const limit = 8;
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const categoryId = queryParams.get("category");
+    const searchValue = queryParams.get("search");
     setSelectedCate(categoryId ? parseInt(categoryId) : null);
+
     setFilters((prev) => ({
       ...prev,
+      search: searchValue || "",
       cateId: categoryId ? parseInt(categoryId) : null,
     }));
   }, [location.search]);
@@ -61,6 +66,8 @@ function Shop() {
         params.category = filters.cateId;
       }
 
+      if (filters.search !== null) params.search = filters.search;
+
       const response = await axios.get(
         "http://localhost:3001/api/v1/products/with-filters",
         { params }
@@ -68,18 +75,14 @@ function Shop() {
 
       setProducts(response.data.data);
       setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error("Lỗi khi lấy sản phẩm:", error);
-    }
+    } catch (error) {}
   };
 
-  // Cập nhật filters khi người dùng chọn bộ lọc mới
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
     setPage(1);
   };
 
-  // Xử lý khi người dùng chuyển trang
   const handlePageClick = (selectedPage) => {
     setPage(selectedPage);
   };
@@ -87,10 +90,9 @@ function Shop() {
   return (
     <div className={cx("wrapper")}>
       <Breadcrumb page="Products" />
-      <div className={cx("content")}>
+      <ScrollReveal>
         <Container>
           <Row>
-            {/* Sidebar bộ lọc */}
             <Col lg={3}>
               <div className={cx("left")}>
                 <div className={cx("filter")}>
@@ -102,8 +104,6 @@ function Shop() {
                 </div>
               </div>
             </Col>
-
-            {/* Danh sách sản phẩm */}
             <Col lg={9}>
               <div className={cx("right")}>
                 <div className={cx("product-count")}>
@@ -111,7 +111,6 @@ function Shop() {
                   <h4>Product Found</h4>
                   <p>{totalPages * limit}</p>
                 </div>
-
                 <Container className={cx("product")}>
                   <Row>
                     {products.map((product) => (
@@ -130,8 +129,6 @@ function Shop() {
                     ))}
                   </Row>
                 </Container>
-
-                {/* Pagination */}
                 <Pagination
                   currentPage={page}
                   totalPages={totalPages}
@@ -141,7 +138,7 @@ function Shop() {
             </Col>
           </Row>
         </Container>
-      </div>
+      </ScrollReveal>
     </div>
   );
 }

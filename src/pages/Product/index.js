@@ -13,30 +13,33 @@ import paypalImage from "../../assets/img/others/paypal.png";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { successToast } from "../../redux/toastSlice";
+import { fetchReviews } from "../../redux/reviewSlice";
+import ScrollReveal from "../../components/layouts/components/ScrollReveal";
+
 const cx = classNames.bind(styles);
 
 function Product() {
+  const { id } = useParams();
   const dispatch = useDispatch();
+  const reviewsCall = useSelector((state) => state.review || [null]);
+  const reviews = reviewsCall.reviews[id];
+
   const formatCurrency = (price) => {
     return new Intl.NumberFormat("vi-VN", { minimumFractionDigits: 0 }).format(
       price
     );
   };
 
-  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const sliderRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [reviews, setReviews] = useState([null]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [newReview, setNewReview] = useState({
-    rating: 5,
-    comment: "",
-  });
+  useEffect(() => {
+    dispatch(fetchReviews(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -56,19 +59,7 @@ function Product() {
         setLoading(false);
       }
     };
-
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3001/api/v1/reviews",
-          { params: { productId: id } }
-        );
-        setReviews(response.data.data);
-      } catch (err) {}
-    };
-
     fetchProduct();
-    fetchReviews();
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
@@ -76,14 +67,10 @@ function Product() {
   if (!product) return <p>Product not found.</p>;
 
   const MinusQuantityChange = () => {
-    setQuantity(quantity - 1);
-    if (quantity <= 1) {
-      setQuantity(1);
-    }
-    console.log(quantity);
+    setQuantity(quantity > 1 ? quantity - 1 : 1);
   };
+
   const AddQuantityChange = () => {
-    console.log(quantity);
     setQuantity(quantity + 1);
   };
 
@@ -101,6 +88,7 @@ function Product() {
       successToast({ message: "Sản phẩm đã được thêm vào giỏ hàng !!!" })
     );
   };
+
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -114,8 +102,8 @@ function Product() {
 
   return (
     <div className={cx("wrapper")}>
-      <div className={cx("content")}>
-        <Breadcrumb></Breadcrumb>
+      <Breadcrumb />
+      <ScrollReveal>
         <Container>
           <Row>
             <Col md={6}>
@@ -130,7 +118,7 @@ function Product() {
                     <Col md={2}>
                       <div className={cx("slider")}>
                         <Slider ref={sliderRef} {...sliderSettings}>
-                          {product.images.map((image, index) => (
+                          {product.images?.map((image, index) => (
                             <div
                               className={cx("item")}
                               key={index}
@@ -166,14 +154,16 @@ function Product() {
             </Col>
             <Col md={6}>
               <div className={cx("right")}>
-                <h1 className={cx("title")}>{product.title}</h1>
+                <h1 className={cx("title")}>
+                  {product.title}
+                  <h4 className={cx("stock")}> Còn lại: {product.stock}</h4>
+                </h1>
                 <h2 className={cx("price")}>
-                  {" "}
                   {formatCurrency(product.price)} đ
                 </h2>
                 <div className={cx("description")}>
                   <div className={cx("stars")}>
-                    <StarsRating rating={4} />
+                    <StarsRating rating={product.averageRating} />
                   </div>
                   <p>{product.description}</p>
                 </div>
@@ -187,51 +177,65 @@ function Product() {
                       +
                     </div>
                   </div>
-                  <Button onClick={() => handleAddToCart()} large>
+                  <Button onClick={handleAddToCart} large>
                     Add to cart
                   </Button>
                 </div>
-                <img className={cx("paypal")} src={paypalImage}></img>
+                <img className={cx("paypal")} src={paypalImage} alt="Paypal" />
               </div>
             </Col>
           </Row>
+        </Container>
+      </ScrollReveal>
+      <ScrollReveal>
+        <Container>
           <Row>
-            <div className={cx("reviews")}>
-              <Review />
-              {reviews?.map((review, index) => (
-                <div
-                  className={cx("review")}
-                  key={index}
-                  style={{
-                    border: "1px solid #ccc",
-                    borderRadius: "10px",
-                    padding: "15px",
-                    marginBottom: "15px",
-                    backgroundColor: "var(--primary)",
-                    color: "var(--active)",
-                  }}
-                >
-                  <h3 style={{ margin: "0 0 5px 0" }}>{review?.user.name}</h3>
+            <Col>
+              <div className={cx("reviews")}>
+                <Review id={id} />
+                {reviews?.map((review, index) => (
                   <div
+                    className={cx("review")}
+                    key={index}
                     style={{
-                      display: "flex",
-                      marginBottom: "5px",
-                      marginRight: "10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "10px",
+                      padding: "15px",
+                      marginBottom: "15px",
+                      backgroundColor: "var(--primary)",
+                      color: "var(--active)",
                     }}
                   >
-                    <StarsRating white rating={review?.rating} />
+                    <h3 style={{ margin: "0 0 5px 0" }}>{review?.user.name}</h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        marginBottom: "5px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <StarsRating white rating={review?.rating} />
+                    </div>
+                    <p style={{ margin: "5px 0", color: "var(--white)" }}>
+                      {review?.comment}
+                    </p>
+                    <small style={{ color: "#999" }}>
+                      {new Date(review?.createdAt).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      })}
+                    </small>
                   </div>
-                  <p style={{ margin: "5px 0", color: "var(--white)" }}>
-                    {review?.comment}
-                  </p>
-
-                  <small style={{ color: "#999" }}>{review?.createdAt}</small>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </Col>
           </Row>
         </Container>
-      </div>
+      </ScrollReveal>
     </div>
   );
 }

@@ -99,9 +99,10 @@
 }
 
 .right {
-  display: flex;
+  // display: flex;
   flex-direction: column;
   margin-bottom: 27px;
+  padding-right: 50px;
 }
 
 .right h3 {

@@ -120,6 +120,14 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  button {
+    background-color: transparent;
+    font-size: 2.6rem;
+    transition: color 0.3s ease;
+    &:hover {
+      color: var(--active);
+    }
+  }
 }
 
 .service a:hover {

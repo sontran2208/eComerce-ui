@@ -64,12 +64,13 @@ function Cart({ toggleOverlay }) {
         ))}
       </div>
 
-      <div className={cx("total")}>Total: ${total.toLocaleString("vi-VN")}</div>
+      <div className={cx("total")}>
+        Total: {total.toLocaleString("vi-VN")} đ
+      </div>
       <div className={cx("button")}>
         <Link to="/cart">
           <button onClick={toggleOverlay}>View Cart</button>
         </Link>
-        <button onClick={toggleOverlay}>Checkout</button>
       </div>
     </div>
   );

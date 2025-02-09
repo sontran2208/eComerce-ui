@@ -9,6 +9,7 @@ import ToastNoti from "../../components/ToastNoti";
 import styles from "./Auth.module.scss";
 import Button from "../../components/Button";
 import Breadcrumb from "../../components/Breadcrumb";
+import ScrollReveal from "../../components/layouts/components/ScrollReveal";
 
 const cx = classNames.bind(styles);
 
@@ -57,114 +58,121 @@ function Auth({ showToast }) {
         } else {
           localStorage.removeItem("rememberedEmail");
         }
-      } else {
       }
     } catch (error) {
       dispatch(dangerToast({ message: `lỗi` }));
-
       console.log(error);
     }
   };
 
   return (
     <div className={cx("wrapper")}>
-      <Breadcrumb page={auth === "login" ? "Sign In" : "Sign Up"} />
+      <ScrollReveal>
+        <Breadcrumb page={auth === "login" ? "Sign In" : "Sign Up"} />
+      </ScrollReveal>
       <Container className={cx("auth")}>
         <Row>
           <Col>
             {auth === "login" && (
-              <div className={cx("login")}>
-                <div className={cx("header")}>
-                  <h2 className={cx("active")} onClick={() => setAuth("login")}>
-                    Sign-in
-                  </h2>
-                  <h2 onClick={() => setAuth("signup")}>Sign-up</h2>
-                </div>
-                <div
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      authApi("signin", {
-                        email: emailRef.current.value,
-                        password: passwordRef.current.value,
-                      });
-                    }
-                  }}
-                  className={cx("form")}
-                >
-                  <input ref={emailRef} type="text" placeholder="Email" />
-                  <input
-                    ref={passwordRef}
-                    type="password"
-                    placeholder="Password"
-                  />
-                  <div className={cx("remember")}>
-                    <input
-                      type="checkbox"
-                      id="rememberMe"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    <p>Remember me</p>
+              <ScrollReveal>
+                <div className={cx("login")}>
+                  <div className={cx("header")}>
+                    <h2
+                      className={cx("active")}
+                      onClick={() => setAuth("login")}
+                    >
+                      Sign-in
+                    </h2>
+                    <h2 onClick={() => setAuth("signup")}>Sign-up</h2>
                   </div>
-                  <Button
-                    onClick={() =>
-                      authApi("signin", {
-                        email: emailRef.current.value,
-                        password: passwordRef.current.value,
-                      })
-                    }
-                    fwidth
+                  <div
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        authApi("signin", {
+                          email: emailRef.current.value,
+                          password: passwordRef.current.value,
+                        });
+                      }
+                    }}
+                    className={cx("form")}
                   >
-                    Sign In
-                  </Button>
+                    <input ref={emailRef} type="text" placeholder="Email" />
+                    <input
+                      ref={passwordRef}
+                      type="password"
+                      placeholder="Password"
+                    />
+                    <div className={cx("remember")}>
+                      <input
+                        type="checkbox"
+                        id="rememberMe"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                      />
+                      <p>Remember me</p>
+                    </div>
+                    <Button
+                      onClick={() =>
+                        authApi("signin", {
+                          email: emailRef.current.value,
+                          password: passwordRef.current.value,
+                        })
+                      }
+                      fwidth
+                    >
+                      Sign In
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             )}
 
             {auth === "signup" && (
-              <div className={cx("signup")}>
-                <div className={cx("header")}>
-                  <h2 onClick={() => setAuth("login")}>Sign-in</h2>
-                  <h2
-                    className={cx("active")}
-                    onClick={() => setAuth("signup")}
+              <ScrollReveal>
+                <div className={cx("signup")}>
+                  <div className={cx("header")}>
+                    <h2 onClick={() => setAuth("login")}>Sign-in</h2>
+                    <h2
+                      className={cx("active")}
+                      onClick={() => setAuth("signup")}
+                    >
+                      Sign-up
+                    </h2>
+                  </div>
+                  <div
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        authApi("signup", {
+                          email: emailRef.current.value,
+                          password: passwordRef.current.value,
+                          name: nameRef.current.value,
+                        });
+                      }
+                    }}
+                    className={cx("form")}
                   >
-                    Sign-up
-                  </h2>
+                    <input ref={emailRef} type="text" placeholder="Email" />
+                    <input
+                      ref={passwordRef}
+                      type="password"
+                      placeholder="Password"
+                    />
+                    <input ref={nameRef} type="text" placeholder="Name" />
+                    <Button
+                      onClick={() =>
+                        authApi("signup", {
+                          email: emailRef.current.value,
+                          password: passwordRef.current.value,
+                          name: nameRef.current.value,
+                        })
+                      }
+                      fwidth
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
                 </div>
-                <div
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      authApi("signup", {
-                        email: emailRef.current.value,
-                        password: passwordRef.current.value,
-                        name: nameRef.current.value,
-                      });
-                    }
-                  }}
-                  className={cx("form")}
-                >
-                  <input ref={emailRef} type="text" placeholder="Email" />
-                  <input
-                    ref={passwordRef}
-                    type="password"
-                    placeholder="Password"
-                  />
-                  <input ref={nameRef} type="text" placeholder="Name" />
-                  <Button
-                    onClick={() =>
-                      authApi("signup", {
-                        email: emailRef.current.value,
-                        password: passwordRef.current.value,
-                        name: nameRef.current.value,
-                      })
-                    }
-                    fwidth
-                  >
-                    Sign Up
-                  </Button>
-                </div>
-              </div>
+              </ScrollReveal>
             )}
           </Col>
         </Row>

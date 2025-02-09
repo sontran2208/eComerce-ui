@@ -10,18 +10,10 @@ import Product from "./pages/Product";
 import Auth from "./pages/Auth";
 import ToastNoti from "./components/ToastNoti";
 import { hideToast } from "./redux/toastSlice";
+import Orders from "./pages/Orders";
+import ScrollToTop from "./components/layouts/components/Scroll";
 
 function App() {
-  // const [showToast, setShowToast] = useState(false);
-  // const [toastMessage, setToastMessage] = useState("");
-  // const [toastVariant, setToastVariant] = useState("success");
-
-  // const showToastMessage = (message, variant = "success") => {
-  //   setToastMessage(message);
-  //   setToastVariant(variant);
-  //   setShowToast(true);
-  // };
-
   const { show, message, variant } = useSelector((state) => state.toast);
   const dispatch = useDispatch();
   useEffect(() => {}, [show, message, variant]);
@@ -32,12 +24,14 @@ function App() {
     <Router>
       <div className="App">
         <DefaultLayout>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<CartPrimary />} />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/Orders" element={<Orders />} />
           </Routes>
         </DefaultLayout>
         <ToastNoti

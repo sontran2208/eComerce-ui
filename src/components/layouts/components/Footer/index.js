@@ -1,13 +1,10 @@
 import shipping1 from "../../../../assets/img/others/shipping1.png";
 import shipping2 from "../../../../assets/img/others/shipping2.png";
 import shipping3 from "../../../../assets/img/others/shipping3.png";
-import { Link } from "react-router-dom";
-import styles from "./Footer.module.scss";
-import { MdPhoneAndroid } from "react-icons/md";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import { Container, Row, Col } from "react-bootstrap";
-
 import classNames from "classnames/bind";
+import styles from "./Footer.module.scss";
+
 const cx = classNames.bind(styles);
 
 function Footer() {
@@ -16,116 +13,37 @@ function Footer() {
       <Container>
         <Row className={cx("shipping")}>
           <Col lg={4} md={6} sm={12} className={cx("infor")}>
-            <img src={shipping1} />
+            <img src={shipping1} alt="Free Shipping" />
             <div className={cx("text")}>
               <h3>Free Shipping</h3>
               <p>Capped at $39 per order</p>
             </div>
           </Col>
           <Col lg={4} md={6} sm={12} className={cx("infor")}>
-            <img src={shipping2} />
+            <img src={shipping2} alt="Card Payments" />
             <div className={cx("text")}>
               <h3>Card Payments</h3>
               <p>12 Months Installments</p>
             </div>
           </Col>
           <Col lg={4} md={6} sm={12} className={cx("infor")}>
-            <img src={shipping3} />
+            <img src={shipping3} alt="Easy Returns" />
             <div className={cx("text")}>
               <h3>Easy Returns</h3>
               <p>Shop with Confidence</p>
             </div>
           </Col>
         </Row>
-
-        <Row className={cx("main")}>
-          <Col lg={4} md={6} sm={12} className={cx("left")}>
-            <h3>Contact Us</h3>
-            <div className={cx("infor")}>
-              <p>
-                If you have any question.please contact us at{" "}
-                <a href="#">demo@example.com</a>
-              </p>
-            </div>
-            <div className={cx("contact")}>
-              <div className={cx("address")}>
-                <div className={cx("icon")}>
-                  <FaMapMarkerAlt />
-                </div>
-                <p>Your address goes here. 123, Address.</p>
-              </div>
-              <div className={cx("phone")}>
-                <div className={cx("icon")}>
-                  <MdPhoneAndroid />
-                </div>
-                <div className={cx("number")}>
-                  <p>+00 123 456 789</p>
-                  <p>+00 123 456 789</p>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col lg={4} md={6} sm={12} className={cx("middle")}>
-            <div className={cx("information")}>
-              <h3>INFORMATION</h3>
-              <ul>
-                <li>
-                  <Link to="/">About Us</Link>
-                </li>
-                <li>
-                  <Link to="/">Delivery information</Link>
-                </li>
-                <li>
-                  <Link to="/">Privacy Policy</Link>
-                </li>
-                <li>
-                  <Link to="/">Sales</Link>
-                </li>
-                <li>
-                  <Link to="/">Terms & Conditions</Link>
-                </li>
-                <li>
-                  <Link to="/">Shipping Policy</Link>
-                </li>
-                <li>
-                  <Link to="/">EMI Payment</Link>
-                </li>
-              </ul>
-            </div>
-            <div className={cx("account")}>
-              <h3>ACCOUNT</h3>
-              <ul>
-                <li>
-                  <Link to="/">My account</Link>
-                </li>
-                <li>
-                  <Link to="/">My orders</Link>
-                </li>
-                <li>
-                  <Link to="/">Returns</Link>
-                </li>
-                <li>
-                  <Link to="/">Shipping</Link>
-                </li>
-                <li>
-                  <Link to="/">Wishlist</Link>
-                </li>
-                <li>
-                  <Link to="/">How Does It Work</Link>
-                </li>
-                <li>
-                  <Link to="/">Merchant Sign Up</Link>
-                </li>
-              </ul>
-            </div>
-          </Col>
-          <Col lg={4} md={6} sm={12} className={cx("right")}>
-            <h3>NEWS LETTER</h3>
-            <p>If you have any question.please contact us at</p>
-            <Link to="/">Send Us a Email</Link>
-          </Col>
-        </Row>
       </Container>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2455.7281440600764!2d105.86124142314983!3d20.869114394458364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135b3fd335aa241%3A0xea2862b970052170!2zVGjGsOG7nW5nIFTDrW4sIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1739057648874!5m2!1svi!2s"
+        width="100%"
+        height="450"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
     </div>
   );
 }

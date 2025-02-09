@@ -15,21 +15,6 @@ function Header({ toggleOverlay, toggleSearch }) {
   const isCartPage = location.pathname === "/cart";
   const token = localStorage.getItem("token");
 
-  // const [countCart, setCountCart] = useState(0);
-  // const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  // useEffect(() => {
-  //   const loadCart = () => {
-  //     const stored = JSON.parse(localStorage.getItem("cart")) || [];
-  //     setCountCart(stored.length);
-  //   };
-  //   loadCart();
-  //   window.addEventListener("storage", loadCart);
-  //   return () => {
-  //     window.removeEventListener("storage", loadCart);
-  //   };
-  // }, [storedCart]);
-
   const cartItems = useSelector((state) => state.cart.items);
   return (
     <div className={cx("wrapper")}>
@@ -37,12 +22,12 @@ function Header({ toggleOverlay, toggleSearch }) {
         <Container>
           <Row className={cx("top-inner")}>
             <Col lg={6} md={12} sm={12} className={cx("welcome")}>
-              <p>World Wide Completely Free Returns and Free Shipping</p>
+              <p>Tiệm Bánh Nhà Làm – Ngon Tận Tâm, Đậm Đà Hương Vị!</p>
             </Col>
 
             <Col lg={6} md={12} sm={12} className={cx("infor")}>
               <p className={cx("phone")}>+00 123 456 789</p>
-              <p className={cx("email")}>demo@example.com</p>
+              <p className={cx("email")}>tranthanhson@example.com</p>
               <Dropdown className={cx("account")}>
                 <Dropdown.Toggle
                   className={cx("dropdown-toggle")}
@@ -58,7 +43,7 @@ function Header({ toggleOverlay, toggleSearch }) {
                         className={cx("dropdown-item")}
                         href="#/my-account"
                       >
-                        My Account
+                        <Link to="/orders">Đơn hàng</Link>
                       </Dropdown.Item>
 
                       <Dropdown.Item
@@ -68,7 +53,7 @@ function Header({ toggleOverlay, toggleSearch }) {
                         }}
                         className={cx("dropdown-item")}
                       >
-                        <Link>Log-out</Link>
+                        Log-out
                       </Dropdown.Item>
                     </>
                   ) : (
