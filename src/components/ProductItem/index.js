@@ -1,7 +1,7 @@
 import styles from "./ProductItem.module.scss";
 
 import { FaRegEye } from "react-icons/fa";
-import { CiShoppingCart, CiHeart } from "react-icons/ci";
+import { CiShoppingCart } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import { useDispatch } from "react-redux";

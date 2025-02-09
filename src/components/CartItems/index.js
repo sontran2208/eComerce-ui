@@ -1,4 +1,3 @@
-import { HiOutlineXCircle } from "react-icons/hi2";
 import styles from "./CartItems.module.scss";
 import className from "classnames/bind";
 import { useDispatch } from "react-redux";

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { successToast, dangerToast } from "../../redux/toastSlice";
-import ToastNoti from "../../components/ToastNoti";
+
 import styles from "./Auth.module.scss";
 import Button from "../../components/Button";
 import Breadcrumb from "../../components/Breadcrumb";

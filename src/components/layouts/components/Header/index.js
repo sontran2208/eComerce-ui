@@ -1,7 +1,6 @@
-import { CiHeart, CiSearch, CiShoppingCart } from "react-icons/ci";
+import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import styles from "./Header.module.scss";
 import NavBtn from "../NavBtn";
-import { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
 import logo from "../../../../assets/img/logo/logo.png";
 import { Container, Row, Col } from "react-bootstrap";
@@ -72,6 +71,7 @@ function Header({ toggleOverlay, toggleSearch }) {
         <Container className={cx("bottom-inner")}>
           <div className={cx("image")}>
             <img
+              alt=""
               className={cx("logo")}
               referrerpolicy="origin-when-cross-origin"
               src={logo}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Table, Button } from "react-bootstrap";
 import styles from "./CartTable.module.scss";
 import classNames from "classnames/bind";
@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   removeFromCart,
   addToCart,
-  handleAdd,
   handleSubtract,
 } from "../../redux/cartSlice";
 const cx = classNames.bind(styles);
@@ -23,10 +22,6 @@ const CartTable = () => {
   const handleSubtractItem = (id) => {
     dispatch(handleSubtract(id));
   };
-  const total = cartItems.reduce(
-    (total, item) => total + (item.price ?? 0) * (item.quantity ?? 1),
-    0
-  );
 
   return (
     <div className={cx("wrapper")}>

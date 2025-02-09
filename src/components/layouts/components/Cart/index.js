@@ -1,5 +1,5 @@
 import { FaChevronRight } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+
 import styles from "./Cart.module.scss";
 import classNames from "classnames/bind";
 import CartItems from "../../../CartItems";
