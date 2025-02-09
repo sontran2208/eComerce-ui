@@ -9,25 +9,6 @@ import { removeFromCart } from "../../../../redux/cartSlice";
 const cx = classNames.bind(styles);
 
 function Cart({ toggleOverlay }) {
-  // // 🔹 Sử dụng state để quản lý giỏ hàng
-  // const [cartItems, setCartItems] = useState([]);
-
-  // // 🔹 Load giỏ hàng từ localStorage khi mở component
-  // useEffect(() => {
-  //   const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-  //   setCartItems(storedCart);
-  // }, []);
-
-  // useEffect(() => {
-  //   const handleStorageChange = () => {
-  //     setCartItems(JSON.parse(localStorage.getItem("cart")) || []);
-  //   };
-  //   window.addEventListener("storage", handleStorageChange);
-  //   return () => window.removeEventListener("storage", handleStorageChange);
-  // }, []);
-
-  // // 🔹 Hàm xóa sản phẩm khỏi giỏ hàng
-
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const handleRemove = (id) => {

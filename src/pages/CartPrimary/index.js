@@ -52,7 +52,7 @@ function CartPrimary() {
 
       const orderData = { shippingAddress, orderedProducts };
       const response = await axios.post(
-        "http://localhost:3001/api/v1/orders",
+        "https://harmonious-manatee-04628f.netlify.app/api/v1/orders",
         orderData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -45,12 +45,14 @@ function Product() {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/api/v1/products/${id}`
+          `https://harmonious-manatee-04628f.netlify.app
+/api/v1/products/${id}`
         );
         setProduct(response.data);
         if (response.data.images?.length > 0) {
           setSelectedImage(
-            `http://localhost:3001/${response.data.images[0].filepath}`
+            `https://harmonious-manatee-04628f.netlify.app
+/${response.data.images[0].filepath}`
           );
         }
       } catch (err) {
@@ -124,7 +126,8 @@ function Product() {
                               key={index}
                               onClick={() => {
                                 setSelectedImage(
-                                  "http://localhost:3001/" + image.filepath
+                                  "https://harmonious-manatee-04628f.netlify.app/" +
+                                    image.filepath
                                 );
                                 sliderRef.current.slickGoTo(index);
                               }}
@@ -133,13 +136,17 @@ function Product() {
                                 padding: "5px",
                                 border:
                                   selectedImage ===
-                                  "http://localhost:3001/" + image.filepath
+                                  "https://harmonious-manatee-04628f.netlify.app/" +
+                                    image.filepath
                                     ? "2px solid var(--primary)"
                                     : "none",
                               }}
                             >
                               <img
-                                src={"http://localhost:3001/" + image.filepath}
+                                src={
+                                  "https://harmonious-manatee-04628f.netlify.app/" +
+                                  image.filepath
+                                }
                                 alt={image.filename}
                                 style={{ width: "100%" }}
                               />

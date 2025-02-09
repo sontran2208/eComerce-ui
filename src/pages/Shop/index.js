@@ -43,7 +43,7 @@ function Shop() {
     const fetchCate = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/v1/categories"
+          "https://harmonious-manatee-04628f.netlify.app/api/v1/categories"
         );
         setCategories([{ id: null, title: "All" }, ...response.data]);
       } catch (error) {
@@ -69,7 +69,7 @@ function Shop() {
       if (filters.search !== null) params.search = filters.search;
 
       const response = await axios.get(
-        "http://localhost:3001/api/v1/products/with-filters",
+        "https://harmonious-manatee-04628f.netlify.app/api/v1/products/with-filters",
         { params }
       );
 
@@ -119,7 +119,7 @@ function Shop() {
                           name={product.title}
                           price={product.price}
                           image={
-                            "http://localhost:3001/" +
+                            "https://harmonious-manatee-04628f.netlify.app/" +
                             (product.images[0]?.filepath || "default.jpg")
                           }
                           id={product.id}

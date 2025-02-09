@@ -15,9 +15,12 @@ function Search({ toggleSearch }) {
       const searchValue = searchRef.current.value.trim();
       if (!searchValue) return; // Nếu input rỗng, không tìm kiếm
 
-      await axios.get("http://localhost:3001/api/v1/products/with-filters", {
-        params: { search: searchValue },
-      });
+      await axios.get(
+        "https://harmonious-manatee-04628f.netlify.app/api/v1/products/with-filters",
+        {
+          params: { search: searchValue },
+        }
+      );
       navigate(`/shop?search=${encodeURIComponent(searchValue)}`);
     } catch (err) {
       console.log(err);
