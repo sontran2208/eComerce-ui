@@ -35,8 +35,7 @@ function Auth({ showToast }) {
   const authApi = async (endpoint, data) => {
     try {
       const response = await axios.post(
-        `https://harmonious-manatee-04628f.netlify.app
-/api/v1/users/${endpoint}`,
+        `http://localhost:3001/api/v1/users/${endpoint}`,
         data
       );
 
