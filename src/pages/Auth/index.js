@@ -35,7 +35,7 @@ function Auth({ showToast }) {
   const authApi = async (endpoint, data) => {
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/v1/users/${endpoint}`,
+        `http://34.87.146.141:3001/api/v1/users/${endpoint}`,
         data
       );
 

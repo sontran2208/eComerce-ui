@@ -14,7 +14,9 @@ function Orders() {
   useEffect(() => {
     const ordersApi = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/v1/orders");
+        const response = await axios.get(
+          "http://34.87.146.141:3001/api/v1/orders"
+        );
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);

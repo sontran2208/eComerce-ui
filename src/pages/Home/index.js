@@ -37,7 +37,7 @@ function Home() {
   useEffect(() => {
     const fetchCate = async () => {
       const response = await axios.get(
-        "http://localhost:3001/api/v1/categories"
+        "http://34.87.146.141:3001/api/v1/categories"
       );
       setCate(response.data);
     };
@@ -48,7 +48,7 @@ function Home() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/v1/products"
+          "http://34.87.146.141:3001/api/v1/products"
         );
         setProducts(response.data);
       } catch (err) {}
@@ -165,7 +165,7 @@ function Home() {
                     name={product.title}
                     price={product.price}
                     image={
-                      "http://localhost:3001/" + product.images[0]?.filepath
+                      "http://34.87.146.141:3001/" + product.images[0]?.filepath
                     }
                     id={product.id}
                     to={`/product/${product.id}`}
@@ -215,7 +215,7 @@ function Home() {
                     name={product.title}
                     price={product.price}
                     image={
-                      "http://localhost:3001/" + product.images[0]?.filepath
+                      "http://34.87.146.141:3001/" + product.images[0]?.filepath
                     }
                     id={product.id}
                     to={`/product/${product.id}`}

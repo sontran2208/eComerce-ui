@@ -52,7 +52,7 @@ function CartPrimary() {
 
       const orderData = { shippingAddress, orderedProducts };
       const response = await axios.post(
-        "http://localhost:3001/api/v1/orders",
+        "http://34.87.146.141:3001/api/v1/orders",
         orderData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
