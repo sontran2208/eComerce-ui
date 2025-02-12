@@ -124,6 +124,27 @@
   width: 116px;
   height: 32.5px;
 }
+.nav, .right, .top {
+  @media (max-width: 576px) {
+    display:none
+  }
+  
+}
+.menu {
+ 
+  cursor: pointer;
+  color:var(--primary);
+  display:none;
+  font-size: 30px;
+  transition:color 0.3s ease;
+  &:hover{
+  color:var(--active)
+  }
+
+  @media (max-width: 576px) {
+    display:block
+  }
+}
 
 .search,
 .whishlist,

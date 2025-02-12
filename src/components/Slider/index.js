@@ -43,6 +43,7 @@ export default function SimpleSlider({ children }) {
         settings: {
           slidesToShow: 2, // Hiển thị 2 slide
           slidesToScroll: 1,
+          arrows: false
         },
       },
       {
@@ -50,6 +51,7 @@ export default function SimpleSlider({ children }) {
         settings: {
           slidesToShow: 1, // Hiển thị 1 slide
           slidesToScroll: 1,
+           arrows: false
         },
       },
     ],

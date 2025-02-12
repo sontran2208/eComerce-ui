@@ -14,7 +14,7 @@ function Cart({ toggleOverlay }) {
   const handleRemove = (id) => {
     dispatch(removeFromCart(id));
   };
-
+  const token = localStorage.getItem("token")
   // 🔹 Tính tổng tiền
   const total = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -34,13 +34,13 @@ function Cart({ toggleOverlay }) {
       <div className={cx("content")}>
         {cartItems.map((item) => (
           <CartItems
-            key={item.id} // 🔹 Thêm key tránh lỗi React
+            key={item.id} 
             remove={handleRemove}
             name={item.name}
             cost={item.price}
             quantity={item.quantity}
             image={item.image}
-            id={item.id} // 🔹 Truyền id để có thể xóa
+            id={item.id} 
           />
         ))}
       </div>
@@ -49,9 +49,13 @@ function Cart({ toggleOverlay }) {
         Total: {total.toLocaleString("vi-VN")} đ
       </div>
       <div className={cx("button")}>
-        <Link to="/cart">
-          <button onClick={toggleOverlay}>View Cart</button>
-        </Link>
+        
+        {token ?(<Link to="/cart">
+          <button onClick={toggleOverlay}>Xem giỏ hàng</button>
+        </Link>):(<Link to="auth">
+        <button onClick={toggleOverlay}>Đăng nhập</button>
+
+        </Link>)}
       </div>
     </div>
   );

@@ -4,16 +4,6 @@ import cateImg1 from "../../assets/img/product/banh-man.jpg";
 import cateImg2 from "../../assets/img/product/banh-ngot.jpg";
 import cateImg3 from "../../assets/img/product/banh-tcay.jpg";
 import cateImg4 from "../../assets/img/product/banh-pizza.jpeg";
-import mini1 from "../../assets/img/others/hero-mini-shape1.png";
-import mini2 from "../../assets/img/others/hero-mini-shape2.png";
-import mini3 from "../../assets/img/others/hero-mini-shape3.png";
-import mini4 from "../../assets/img/others/hero-mini-shape4.png";
-import mini5 from "../../assets/img/others/hero-mini-shape5.png";
-import brand1 from "../../assets/img/others/brand1.png";
-import brand2 from "../../assets/img/others/brand2.png";
-import brand3 from "../../assets/img/others/brand3.png";
-import brand4 from "../../assets/img/others/brand4.png";
-import brand5 from "../../assets/img/others/brand5.png";
 import ProductItem from "../../components/ProductItem";
 import banner1 from "../../assets/img/bg/banner1.png";
 import banner2 from "../../assets/img/bg/banner2.png";
@@ -23,6 +13,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import axios from "axios";
+import {motion} from "framer-motion"
 import { useEffect, useState } from "react";
 import ScrollReveal from "../../components/layouts/components/ScrollReveal";
 
@@ -65,37 +56,43 @@ function Home() {
       <div className={cx("wrapper")}>
         <Container fluid className={cx("banner")}>
           <Container>
-            <Row>
-              <Col lg={6} md={6} xs={12}>
-                <div className={cx("inner")}>
-                  <div className={cx("sale-off")}>
-                    <span
-                      style={{ color: "var(--active)", marginRight: "10px" }}
-                    >
-                      70%
-                    </span>
-                    <h3 style={{ fontSize: "30px" }}>Giảm sốc !!!</h3>
-                  </div>
-                  <div className={cx("description")}>
-                    <h1>Bánh Ngon, Giá Giảm – Ăn Thả Ga! </h1>
-                  </div>
-                  <Pill to="shop" large />
+          <Row>
+            <Col lg={6} md={6} xs={12}>
+              <div className={cx("inner")}>
+                <div className={cx("sale-off")}>
+                  <span style={{ color: "var(--active)", marginRight: "10px" }}>70%</span>
+                  <h3 style={{ fontSize: "30px" }}>Giảm sốc !!!</h3>
                 </div>
-              </Col>
-              <Col lg={6} md={6} xs={12} className="d-none d-md-block">
-                <div className={cx("banner-img")}>
-                  <img alt="" src={centerBanner} />
+                <div className={cx("description")}>
+                  Bánh Ngon, Giá Giảm – Ăn Thả Ga! 
                 </div>
-              </Col>
-            </Row>
+                <Pill to="shop" large />
+              </div>
+            </Col>
+            <Col lg={6} md={6} xs={12} className="d-none d-md-block">
+              <div className={cx("banner-img")}>
+                <motion.img
+                  alt=""
+                  src={centerBanner}
+                  animate={{ y: [0, -30, 0] }} // Nhảy lên 10px rồi xuống lại
+                  transition={{
+                    duration: 1.2, // Tổng thời gian một chu kỳ
+                    repeat: Infinity, // Lặp vô hạn
+                    repeatType: "loop", // Lặp liên tục
+                    ease: "easeInOut", // Làm mượt hiệu ứng
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
           </Container>
         </Container>
 
         <Container>
-          <Row>
-            <div className={cx("services")}>
+          {/* <Row> */}
+            <Row className={cx("services")}>
               {cate.slice(0, 4).map((category, index) => (
-                <Col lg={3} key={category.id}>
+                <Col lg={3} md={12} sm={12} key={category.id}>
                   <div className={cx("service")}>
                     <img alt="" src={cateImg[index]} />
                     <button onClick={() => handleCateNavi(category.id)}>
@@ -105,8 +102,8 @@ function Home() {
                   </div>
                 </Col>
               ))}
-            </div>
-          </Row>
+            </Row>
+          {/* </Row> */}
         </Container>
 
         <Container>
@@ -208,9 +205,10 @@ function Home() {
             </div>
           </Row>
           <Row>
+            
             <SimpleSlider>
               {products.slice(0, 8).map((product) => (
-                <Col key={product.id} lg={3} md={4} sm={6}>
+                <Col key={product.id} lg={3} md={6} sm={12}>
                   <ProductItem
                     name={product.title}
                     price={product.price}

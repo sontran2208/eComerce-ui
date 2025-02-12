@@ -86,7 +86,7 @@ function CartPrimary() {
   return (
     <div className={cx("wrapper")}>
       <ScrollReveal>
-        <Breadcrumb page="Cart" />
+        <Breadcrumb page="Giỏ hàng" />
       </ScrollReveal>
       <Container>
         <Row>
@@ -96,23 +96,27 @@ function CartPrimary() {
             </ScrollReveal>
           </Col>
         </Row>
-        <ScrollReveal>
-          <div className={cx("total")}>
-            <input ref={phoneRef} type="text" placeholder="Số điện thoại" />
-            <input ref={nameRef} type="text" placeholder="Tên" />
-            <input ref={addressRef} type="text" placeholder="Địa chỉ" />
-            <input ref={stateRef} type="text" placeholder="Tỉnh" />
-            <input ref={cityRef} type="text" placeholder="Thành phố" />
-            <input ref={countryRef} type="text" placeholder="Quốc gia" />
-            <Button
-              variant="custom"
-              onClick={placeOrder}
-              className={cx("checkout-btn")}
-            >
-              Đặt hàng
-            </Button>
-          </div>
-        </ScrollReveal>
+        <Row>
+          <Col>
+            <ScrollReveal>
+              <div className={cx("total")}>
+                <input ref={phoneRef} type="text" placeholder="Số điện thoại" />
+                <input ref={nameRef} type="text" placeholder="Tên" />
+                <input ref={addressRef} type="text" placeholder="Địa chỉ" />
+                <input ref={stateRef} type="text" placeholder="Tỉnh" />
+                <input ref={cityRef} type="text" placeholder="Thành phố" />
+                <input ref={countryRef} type="text" placeholder="Quốc gia" />
+                <Button
+                  variant="custom"
+                  onClick={placeOrder}
+                  className={cx("checkout-btn")}
+                >
+                  Đặt hàng
+                </Button>
+              </div>
+            </ScrollReveal>    
+          </Col>
+        </Row>
       </Container>
     </div>
   );

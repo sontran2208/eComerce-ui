@@ -93,7 +93,7 @@ function Shop() {
       <ScrollReveal>
         <Container>
           <Row>
-            <Col lg={3}>
+            <Col lg={3} md={12} sm={12}>
               <div className={cx("left")}>
                 <div className={cx("filter")}>
                   <Filter
@@ -104,7 +104,7 @@ function Shop() {
                 </div>
               </div>
             </Col>
-            <Col lg={9}>
+            <Col lg={9} md={12} sm={12}>
               <div className={cx("right")}>
                 <div className={cx("product-count")}>
                   <p>{products.length}</p>
@@ -112,7 +112,7 @@ function Shop() {
                   <p>{totalPages * limit}</p>
                 </div>
                 <Container className={cx("product")}>
-                  <Row>
+                  <Row className="justify-content-center ">
                     {products.map((product) => (
                       <Col key={product.id} lg={3} md={4} sm={6}>
                         <ProductItem

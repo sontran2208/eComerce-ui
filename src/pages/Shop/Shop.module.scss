@@ -20,3 +20,9 @@
   padding: 0 5px;
   margin-bottom: 0px;
 }
+.filter {
+  @media (max-width: 576px) {
+    display:flex;
+    justify-content: center;
+  }
+}

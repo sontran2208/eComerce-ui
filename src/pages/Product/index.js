@@ -16,6 +16,7 @@ import { successToast } from "../../redux/toastSlice";
 import { fetchReviews } from "../../redux/reviewSlice";
 import ScrollReveal from "../../components/layouts/components/ScrollReveal";
 
+
 const cx = classNames.bind(styles);
 
 function Product() {
@@ -104,7 +105,10 @@ function Product() {
 
   return (
     <div className={cx("wrapper")}>
-      <Breadcrumb />
+
+        <Breadcrumb page={product.title}/>
+
+
       <ScrollReveal>
         <Container>
           <Row>

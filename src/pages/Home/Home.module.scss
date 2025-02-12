@@ -24,6 +24,7 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
   @media (max-width: 576px) {
     /* Breakpoint sm của Bootstrap */
     .inner {
+
       display: flex;
       flex-direction: column; /* Hiển thị nội dung dọc */
       justify-content: center; /* Căn giữa nội dung bên trong */
@@ -57,20 +58,22 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
 .inner {
   position: inherit;
   z-index: 10;
-  min-width: 465px;
+  // min-width: 465px;
   margin: 50px 0;
   padding: 50px 0;
 
   .description {
-    // width: 500px;
+    font-size: 60px;
     height: 156px;
-    margin: 0 0 41px;
+    margin: 0 0 41px; // Mặc định
     line-height: 70px;
     z-index: 9;
-    h1 {
-      font-size: 60px;
+  
+    @media (max-width: 576px) { 
+      margin-bottom: 70px;
     }
   }
+  
 }
 
 .mini1,
@@ -128,6 +131,9 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
       color: var(--active);
     }
   }
+  img {
+    border-radius: 8px;
+  }
 }
 
 .service a:hover {
@@ -164,6 +170,10 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
   border-radius: 10px;
   position: relative;
   margin-bottom: 100px;
+  @media (max-width: 576px){
+  margin-bottom: 20px;
+
+  }
 }
 
 .banner1 {
@@ -261,6 +271,7 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
   background-size: cover;
   padding: 110px 0;
   margin-bottom: 110px;
+  h2{text-align: center;}
 }
 .advertisment-desc {
   display: flex;
@@ -304,6 +315,7 @@ $ads-img: "../../assets/img/bg/banner-fullwidth1.png";
 }
 .slider-header p {
   margin-top: 20px;
+  text-align: center;
 }
 
 //brands

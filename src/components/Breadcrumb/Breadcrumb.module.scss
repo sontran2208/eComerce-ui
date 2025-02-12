@@ -20,5 +20,5 @@
   top: 50%; /* Đặt ở giữa chiều cao */
   left: 50%; /* Đặt ở giữa chiều rộng */
   transform: translate(-50%, -50%); /* Căn giữa theo trục X và Y */
-  font-size: 80px; /* Kích thước chữ */
+  font-size: clamp(24px, 5vw, 50px); // Nhỏ nhất 24px, lớn nhất 50px
 }

@@ -5,15 +5,9 @@ const ScrollReveal = ({ children, delay = 0.2 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      const top = window.scrollY + window.innerHeight;
-      const elementTop = document.getElementById(children.key)?.offsetTop || 0;
-      if (top > elementTop) setIsVisible(true);
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    // Kích hoạt hiệu ứng ngay khi component được render
+    setIsVisible(true);
+  }, []); // Chạy một lần duy nhất khi component mount
 
   return (
     <motion.div

@@ -2,6 +2,9 @@
   width: 100%;
 
   .common-form {
+    @media(max-width:576px) {
+      width: 400px;
+    }
     width: 516px;
     height: 367px;
     padding: 30px;

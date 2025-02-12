@@ -7,9 +7,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames/bind";
 import { useSelector } from "react-redux";
+import { CiMenuBurger } from "react-icons/ci";
+import { RiMenuFold3Line } from "react-icons/ri";
 const cx = classNames.bind(styles);
 
-function Header({ toggleOverlay, toggleSearch }) {
+function Header({ toggleOverlay, toggleSearch, toggleMenu }) {
   const location = useLocation();
   const isCartPage = location.pathname === "/cart";
   const token = localStorage.getItem("token");
@@ -70,12 +72,14 @@ function Header({ toggleOverlay, toggleSearch }) {
       <div className={cx("bottom")}>
         <Container className={cx("bottom-inner")}>
           <div className={cx("image")}>
-            <img
-              alt=""
-              className={cx("logo")}
-              referrerpolicy="origin-when-cross-origin"
-              src={logo}
-            />
+            <Link to="">
+              <img
+                alt=""
+                className={cx("logo")}
+                referrerpolicy="origin-when-cross-origin"
+                src={logo}
+              />
+            </Link>
           </div>
           <div className={cx("nav")}>
             {token ? (
@@ -91,6 +95,7 @@ function Header({ toggleOverlay, toggleSearch }) {
               </>
             )}
           </div>
+          <div onClick={toggleMenu} className={cx("menu")}><RiMenuFold3Line /></div>
           <div className={cx("right")}>
             {!isCartPage ? (
               <>

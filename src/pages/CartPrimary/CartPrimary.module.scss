@@ -34,6 +34,18 @@
 }
 
 .total {
+  @media (max-width:576px) {
+    width: auto;
+    display:flex;
+    flex-direction: column;
+    height:auto;
+
+    input {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 10px;
+    }
+  }
   @extend .coupon;
 
   h1 {
